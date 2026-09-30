@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compound Interest Explained</title>
+<style>
+/* ---------- Typefaces. System serif only, so the page needs no external font. ---------- */
+:root {
+  --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, "Sitka Text", Georgia,
+    "Songti SC", "Hiragino Mincho ProN", "Noto Serif CJK SC", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* ---------- Colour tokens. Light is the default: warm paper, near-black ink. ---------- */
+:root {
+  --bg: #fdfcf9;
+  --surface: #f2efe7;
+  --text: #1a1713;
+  --muted: #5c564e;
+  --border: #d5cfc2;
+  --accent: #8a2e1c;
+  --accent-soft: #f1e7e2;
+  --good: #11632a;
+  --good-soft: #e9f1e7;
+  --warn: #7a4300;
+  --warn-soft: #f6eddc;
+  --bad: #a1260d;
+  --bad-soft: #f7e8e3;
+  /* Chart series colours: blue, amber, purple, green. Validated for colour-blind readers:
+     every pair stays distinct under protan, deutan, and tritan simulation, in both themes.
+     Use them in this order. Use at most 4 series in one chart. */
+  --s1: #1c5293;
+  --s2: #863709;
+  --s3: #9260da;
+  --s4: #25984d;
+  --grid: #e5dfd2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16130f;
+    --surface: #221e18;
+    --text: #ece5da;
+    --muted: #a99e91;
+    --border: #3c352c;
+    --accent: #e4a392;
+    --accent-soft: #2b1f1a;
+    --good: #7fd69a;
+    --good-soft: #17251a;
+    --warn: #f0b861;
+    --warn-soft: #2c2314;
+    --bad: #ff9d8a;
+    --bad-soft: #2f1c17;
+    --s1: #0774aa;
+    --s2: #9e590d;
+    --s3: #a473ee;
+    --s4: #09af51;
+    --grid: #2e2821;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16130f;
+  --surface: #221e18;
+  --text: #ece5da;
+  --muted: #a99e91;
+  --border: #3c352c;
+  --accent: #e4a392;
+  --accent-soft: #2b1f1a;
+  --good: #7fd69a;
+  --good-soft: #17251a;
+  --warn: #f0b861;
+  --warn-soft: #2c2314;
+  --bad: #ff9d8a;
+  --bad-soft: #2f1c17;
+  --s1: #0774aa;
+  --s2: #9e590d;
+  --s3: #a473ee;
+  --s4: #09af51;
+  --grid: #2e2821;
+}
+
+/* ---------- Base text. One measure, left-aligned, generous line spacing. ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  text-align: left;
+  overflow-wrap: break-word;
+  font-kerning: normal;
+  font-synthesis: none;
+}
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 16px 5rem;
+}
+
+/* Headings carry the structure through size and space. No rules across the page,
+   except one short mark above each section heading. */
+h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
+h1 {
+  font-size: 2.3rem;
+  line-height: 1.17;
+  letter-spacing: -0.012em;
+  margin-bottom: 0.9rem;
+}
+h2 {
+  font-size: 1.5rem;
+  line-height: 1.26;
+  margin-top: 3.4rem;
+  margin-bottom: 0.7rem;
+}
+h2::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  border-top: 1px solid var(--accent);
+  margin-bottom: 1.1rem;
+}
+h3 { font-size: 1.15rem; margin-top: 1.9rem; margin-bottom: 0.45rem; }
+p, ul, ol, dl, table, figure { margin: 0 0 1.15rem; }
+p { text-wrap: pretty; }
+ul, ol { padding-left: 1.3rem; }
+li { margin-bottom: 0.4rem; }
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+strong { font-weight: 600; }
+.num, td.num, th.num { font-variant-numeric: tabular-nums; }
+
+/* Code keeps only its own typeface. No chip, no frame around a word. */
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+}
+pre {
+  background: var(--surface);
+  border-left: 2px solid var(--border);
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  line-height: 1.55;
+  font-size: 0.95rem;
+  margin: 0 0 1.3rem;
+}
+pre code { font-size: 1em; }
+
+/* ---------- Page header. One line under the title closes the masthead. ---------- */
+.meta {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1rem;
+  margin: 0 0 2.6rem;
+}
+
+/* ---------- Boxes. No fill and no frame: a rule and space set each one apart.
+              Every box keeps its written label, so colour is never the only signal. ---------- */
+.box { margin: 0 0 1.7rem; }
+.box > :last-child { margin-bottom: 0; }
+.box .label {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+/* The short answer is the opening statement of the page. Heaviest rule, largest text. */
+.bottom-line {
+  border-top: 2px solid var(--text);
+  border-bottom: 1px solid var(--border);
+  padding: 1.05rem 0 1.15rem;
+  font-size: 1.16rem;
+  line-height: 1.6;
+}
+.bottom-line .label { color: var(--text); }
+.example { border-left: 1px solid var(--border); padding-left: 1.4rem; }
+.mistake { border-left: 2px solid var(--bad); padding-left: 1.4rem; }
+.mistake .label { color: var(--bad); }
+.limits { border-top: 1px solid var(--border); padding-top: 1rem; font-size: 1.05rem; }
+.assume {
+  border-left: 1px solid var(--border);
+  padding-left: 1.4rem;
+  font-size: 1.05rem;
+}
+.assume .label { color: var(--muted); }
+.predict { border-left: 2px solid var(--accent); padding-left: 1.4rem; }
+.predict .label { color: var(--accent); }
+.recap { border-top: 2px solid var(--text); padding-top: 1rem; }
+.recap .label { color: var(--text); }
+
+/* ---------- Contents list ---------- */
+nav.contents {
+  border-left: 1px solid var(--border);
+  padding: 0 0 0 1.4rem;
+  margin: 0 0 2rem;
+  font-size: 1.05rem;
+}
+nav.contents ol { margin: 0; padding-left: 1.4rem; }
+nav.contents li { margin-bottom: 0.3rem; }
+nav.contents a { color: var(--text); text-decoration-color: var(--border); }
+nav.contents a:hover { text-decoration-color: var(--accent); }
+nav.contents .label {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+
+/* ---------- Key terms. The definition is in the sentence, not in a tooltip. ---------- */
+dfn {
+  font-style: normal;
+  font-weight: 600;
+  border-bottom: 1px solid var(--accent);
+}
+dl.glossary dt { font-weight: 600; margin-top: 0.85rem; }
+dl.glossary dd { margin: 0.1rem 0 0 0; }
+
+/* ---------- Numbered reasoning steps. The numeral sits in the margin, as in a book. ---------- */
+ol.steps { list-style: none; padding: 0; counter-reset: step; }
+ol.steps > li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 0.2rem 2.5rem;
+  margin-bottom: 1rem;
+}
+ol.steps > li::before {
+  content: counter(step) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.7rem;
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+.why {
+  display: block;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1.02rem;
+  margin-top: 0.1rem;
+}
+.why::before { content: "Reason: "; font-weight: 400; }
+
+/* ---------- Tables. Print rules only: one above the header, one under each row. ---------- */
+.table-wrap { overflow-x: auto; margin: 0 0 1.15rem; }
+.table-wrap table { margin: 0; }
+/* When a table is wider than its frame, the script adds the class "scrolls". Then the title
+   stays in view and a hint appears. */
+.table-wrap.scrolls caption { position: sticky; left: 0; max-width: var(--wrap-width, 100%); }
+.table-wrap.scrolls::before {
+  content: "Move the table sideways to see all of it.";
+  display: block;
+  position: sticky;
+  left: 0;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+table { border-collapse: collapse; width: 100%; font-size: 1.02rem; line-height: 1.5; }
+caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+th, td {
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+th:first-child, td:first-child { padding-left: 0; }
+th:last-child, td:last-child { padding-right: 0; }
+thead th {
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
+  font-weight: 600;
+}
+td.num, th.num { text-align: right; }
+td.num { white-space: nowrap; }
+.table-read { font-size: 1rem; margin: -0.4rem 0 1.15rem; }
+tbody th { font-weight: 400; }
+tr.highlight td, tr.highlight th { background: var(--surface); font-weight: 600; }
+
+/* ---------- Figures. The title is a sentence that states the finding. ---------- */
+figure {
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0 1rem;
+}
+figure .fig-title { font-weight: 600; font-size: 1.08rem; margin: 0 0 0.15rem; }
+figure .fig-sub { color: var(--muted); font-style: italic; font-size: 0.98rem; margin: 0 0 0.7rem; }
+figure .fig-read { font-size: 1rem; margin: 0.7rem 0 0; }
+figure .fig-source { color: var(--muted); font-style: italic; font-size: 0.93rem; margin: 0.35rem 0 0; }
+figure svg { display: block; width: 100%; height: auto; }
+/* On a narrow screen a figure keeps a readable size and scrolls inside its own frame. */
+.fig-scroll { overflow-x: auto; }
+.fig-scroll svg { min-width: 34rem; }
+@media (max-width: 40rem) {
+  .fig-scroll::before {
+    content: "Move the figure sideways to see all of it.";
+    display: block;
+    position: sticky;
+    left: 0;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+}
+svg text { font-family: var(--serif); fill: var(--text); }
+svg .axis-label { fill: var(--muted); font-size: 13px; }
+svg .grid { stroke: var(--grid); stroke-width: 1; }
+svg .axis { stroke: var(--muted); stroke-width: 1; }
+/* Diagram parts. A box is a thing. An arrow means "causes" or "then". */
+svg .node { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+svg .arrow { fill: none; stroke: var(--text); stroke-width: 1.5; }
+svg .arrow-head { fill: var(--text); }
+svg .node-name { font-size: 14px; font-weight: 600; }
+svg .node-value { font-size: 13px; fill: var(--muted); }
+svg .arrow-label { font-size: 13px; font-style: italic; }
+
+/* ---------- Text that is quoted from a source or from data. The language rules do not apply to it. ---------- */
+.quoted { font-style: italic; }
+
+/* ---------- Side-by-side comparison. One hairline divides the two cases. ---------- */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.7rem;
+  margin: 0 0 1.7rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.95rem 0 1rem;
+}
+.compare > div > :last-child { margin-bottom: 0; }
+.compare > div + div { border-left: 1px solid var(--border); padding-left: 1.7rem; }
+.compare h4 { margin: 0 0 0.4rem; font-size: 1.04rem; font-weight: 600; }
+@media (max-width: 560px) {
+  .compare { grid-template-columns: 1fr; gap: 1.1rem 0; }
+  .compare > div + div {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 1.1rem;
+  }
+}
+
+/* ---------- Self-check questions. The answer is hidden until the reader tries. ---------- */
+.check {
+  border-top: 2px solid var(--text);
+  padding-top: 1rem;
+  margin: 0 0 1.8rem;
+}
+.check .label {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+.check ol { margin-bottom: 0; }
+.check li { margin-bottom: 1rem; }
+details { margin-top: 0.4rem; }
+summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+details > div {
+  margin-top: 0.5rem;
+  padding: 0.1rem 0 0.1rem 1.1rem;
+  border-left: 1px solid var(--border);
+}
+details > div > :last-child { margin-bottom: 0; }
+
+/* ---------- Optional depth. Visible label, one level only. ---------- */
+details.optional {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  margin: 0 0 1.7rem;
+}
+details.optional > summary::before {
+  content: "Optional detail: ";
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ---------- Part heading, for a page with several parts ---------- */
+.part {
+  margin: 4rem 0 0;
+  padding: 0 0 0.35rem;
+  border-bottom: 1px solid var(--text);
+  font-size: 1.02rem;
+  font-weight: 400;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+.part + h2 { margin-top: 1.3rem; }
+.part + h2::before { content: none; }
+nav.contents .core::after {
+  content: " (main path)";
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+/* ---------- Confidence labels. Small capitals plus the word, never colour alone. ---------- */
+.conf {
+  font-size: 1rem;
+  font-weight: 400;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.conf.high { color: var(--good); }
+.conf.medium { color: var(--warn); }
+.conf.low { color: var(--bad); }
+.conf.given { color: var(--muted); }
+ol.sources { font-size: 1.05rem; }
+ol.sources li { margin-bottom: 0.7rem; }
+
+/* ---------- Narrow screens. The title drops one step, the measure keeps its gutter. ---------- */
+@media (max-width: 30rem) {
+  body { font-size: 1.06rem; }
+  main { padding: 2.2rem 16px 4rem; }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.32rem; margin-top: 2.8rem; }
+  .bottom-line { font-size: 1.1rem; }
+}
+
+/* ---------- Print. All hidden answers are opened by the script at the end of the file. ---------- */
+@media print {
+  body { font-size: 11pt; background: #fff; color: #000; }
+  main { max-width: none; padding: 0; }
+  nav.contents { display: none; }
+  h2 { margin-top: 2rem; }
+  .box, figure, .check, table, .compare { break-inside: avoid; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+<main>
+
+<!-- ===== 1. HEADER. The h1 is a question or a claim. ===== -->
+<h1>How does compound interest make money grow faster over time?</h1>
+<!-- The build script fills 2026-09-29, 8, and 1. -->
+<p class="meta">Written 2026-09-29 · Reading time: about 8 minutes · You need to know: percentages</p>
+
+<!-- ===== 2. THE SHORT ANSWER. Conclusion first, with the key numbers. ===== -->
+<div class="box bottom-line">
+  <span class="label">The short answer</span>
+  <p>With compound interest, you earn interest on your earlier interest, not only on your starting money. The result is growth that becomes faster every year.</p>
+  <p><strong>Example:</strong> US$10,000 at 5% per year becomes <strong>$43,219</strong> after 30 years with compound interest. With simple interest it becomes <strong>$25,000</strong>. The difference is $18,219.</p>
+</div>
+
+<!-- ===== ASSUMPTIONS. Use this box when the request of the reader leaves something open. ===== -->
+<div class="box assume">
+  <span class="label">Assumptions on this page</span>
+  <ul>
+    <li>The rate is 5% in every year.</li>
+    <li>The bank adds the interest one time per year.</li>
+    <li>You do not add money and you do not remove money.</li>
+  </ul>
+</div>
+
+<!-- ===== 3. CONTENTS. Each entry is a statement, not a topic word. ===== -->
+<nav class="contents">
+  <span class="label">On this page</span>
+  <ol>
+    <li><a href="#example">One example: US$10,000 grows to US$11,576 in 3 years</a></li>
+    <li><a href="#rule">The rule: each year multiplies the balance by 1.05</a></li>
+    <li><a href="#data">The difference grows every year: US$1,289 after 10 years, US$18,219 after 30</a></li>
+    <li><a href="#mistake">Wrong idea corrected: 30 years at 5% give 332% growth, not 150%</a></li>
+    <li><a href="#limits">Limits: real rates change, and inflation and tax reduce the result</a></li>
+    <li><a href="#check">Check your understanding</a></li>
+    <li><a href="#recap">Recap, glossary, and sources</a></li>
+  </ol>
+</nav>
+
+<!-- ===== 4. CONCRETE EXAMPLE FIRST. Real numbers, every step shown. ===== -->
+<h2 id="example">1. One example: US$10,000 grows to US$11,576 in 3 years</h2>
+<p>You put US$10,000 in a bank account. The bank pays 5% <dfn>interest</dfn> (money the bank pays you for keeping your money there) every year. You do not take any money out. The <dfn>balance</dfn> (the amount of money in the account at one moment) is US$10,000 at the start.</p>
+
+<div class="box example">
+  <span class="label">Worked example</span>
+  <ol class="steps">
+    <li>Year 1: $10,000 × 0.05 = <strong>$500</strong> interest. New balance: $10,500.
+      <span class="why">5% written as a decimal is 0.05.</span></li>
+    <li>Year 2: $10,500 × 0.05 = <strong>$525</strong> interest. New balance: $11,025.
+      <span class="why">The bank now calculates 5% of $10,500, not of $10,000. The extra $25 is interest on last year's $500.</span></li>
+    <li>Year 3: $11,025 × 0.05 = <strong>$551.25</strong> interest. New balance: $11,576.25.
+      <span class="why">The balance is larger again, so the interest is larger again.</span></li>
+  </ol>
+  <p><strong>Result:</strong> the interest grows each year: $500, then $525, then $551.25.</p>
+</div>
+
+<!-- ===== 5. THE RULE. Abstract idea after the example. ===== -->
+<h2 id="rule">2. The rule: each year multiplies the balance by 1.05</h2>
+<p>Each year, the balance is multiplied by 1.05. After <code>n</code> years, the balance is multiplied by 1.05 exactly <code>n</code> times.</p>
+<pre><code>final balance = starting money × (1 + rate)^years
+$11,576.25    = $10,000        × (1 + 0.05)^3</code></pre>
+
+<!-- A DIAGRAM shows structure, sequence, or cause. The title is a sentence. No number is necessary in the title of a diagram. -->
+<figure class="diagram">
+  <p class="fig-title">A larger balance produces larger interest, and larger interest produces a larger balance.</p>
+  <p class="fig-sub">The values are the values of year 1 in the example.</p>
+  <div class="fig-scroll">
+  <svg viewBox="0 0 640 200" role="img" aria-label="Diagram of a cycle. The start balance multiplied by 0.05 gives the interest of the year. The interest is added to the start balance and gives the end balance. The end balance is the start balance of the next year.">
+    <defs>
+      <marker id="arrow-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="arrow-head" d="M 0 0 L 10 5 L 0 10 z"/>
+      </marker>
+    </defs>
+    <rect class="node" x="20" y="44" width="170" height="64" rx="8"/>
+    <text class="node-name" x="105" y="71" text-anchor="middle">Start balance</text>
+    <text class="node-value" x="105" y="92" text-anchor="middle">US$10,000</text>
+    <rect class="node" x="235" y="44" width="170" height="64" rx="8"/>
+    <text class="node-name" x="320" y="71" text-anchor="middle">Interest of the year</text>
+    <text class="node-value" x="320" y="92" text-anchor="middle">US$500</text>
+    <rect class="node" x="450" y="44" width="170" height="64" rx="8"/>
+    <text class="node-name" x="535" y="71" text-anchor="middle">End balance</text>
+    <text class="node-value" x="535" y="92" text-anchor="middle">US$10,500</text>
+    <line class="arrow" x1="192" y1="76" x2="232" y2="76" marker-end="url(#arrow-head)"/>
+    <text class="arrow-label" x="212" y="32" text-anchor="middle">× 0.05</text>
+    <line class="arrow" x1="407" y1="76" x2="447" y2="76" marker-end="url(#arrow-head)"/>
+    <text class="arrow-label" x="427" y="32" text-anchor="middle">+ start balance</text>
+    <path class="arrow" d="M 535 110 V 150 H 105 V 112" marker-end="url(#arrow-head)"/>
+    <text class="arrow-label" x="320" y="176" text-anchor="middle">The end balance is the start balance of the next year.</text>
+  </svg>
+  </div>
+  <p class="fig-read"><strong>How to read this diagram:</strong> each box is an amount of money. Each arrow means "produces". Start at the left box and follow the arrows.</p>
+</figure>
+
+<h3>Compare the two types of interest</h3>
+<p>The example in section 1 uses <dfn>compound interest</dfn>: the bank calculates the interest on the current balance. The other type is <dfn>simple interest</dfn>: the bank calculates the interest on the starting money only.</p>
+<div class="compare">
+  <div>
+    <h4>Simple interest</h4>
+    <p>Interest is calculated on the starting money only.</p>
+    <p>Every year: the same $500.</p>
+  </div>
+  <div>
+    <h4>Compound interest</h4>
+    <p>Interest is calculated on the current balance.</p>
+    <p>Every year: more than the year before.</p>
+  </div>
+</div>
+
+<details class="optional">
+  <summary>What changes when the bank adds interest every month</summary>
+  <div>
+    <p>Some banks add interest 12 times per year. Then each month multiplies the balance by (1 + 0.05 ÷ 12). After 3 years the balance is US$11,614.72. This is US$38.47 more than with yearly interest.</p>
+  </div>
+</details>
+
+<!-- A COMPARISON TABLE: one row per option, one column per criterion, the unit in the column header. -->
+<div class="table-wrap">
+<table>
+  <caption>The two types of interest pay the same in year 1 and very different amounts in year 30</caption>
+  <thead>
+    <tr><th>Type of interest</th><th>Base of the calculation</th><th class="num">Interest in year 1 (US$)</th><th class="num">Interest in year 30 (US$)</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">Simple</th><td>Starting money</td><td class="num">500.00</td><td class="num">500.00</td></tr>
+    <tr class="highlight"><th scope="row">Compound</th><td>Current balance</td><td class="num">500.00</td><td class="num">2,058.07</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-read"><strong>How to read this table:</strong> each row is one type of interest. Compare the two rows column by column.</p>
+
+<!-- A DECISION TABLE: one row per case. The reading line says how to use it. -->
+<h3>Which formula fits your account</h3>
+<div class="table-wrap">
+<table>
+  <caption>The formula depends on two conditions</caption>
+  <thead>
+    <tr><th>Does the bank add the interest to the balance?</th><th class="num">How many times per year?</th><th>Formula for the final balance</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>No</td><td class="num">Not relevant</td><td><code>starting money × (1 + rate × years)</code></td></tr>
+    <tr class="highlight"><td>Yes</td><td class="num">1</td><td><code>starting money × (1 + rate)^years</code></td></tr>
+    <tr><td>Yes</td><td class="num">12</td><td><code>starting money × (1 + rate ÷ 12)^(12 × years)</code></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-read"><strong>How to read this table:</strong> find the row that matches your account. The last column gives the formula. The highlighted row is the case of this page.</p>
+
+<!-- ===== 6. THE DATA. Predict first, then chart for the pattern, then table for exact values. ===== -->
+<h2 id="data">3. The difference grows every year: US$1,289 after 10 years, US$18,219 after 30</h2>
+
+<div class="box predict">
+  <span class="label">Guess first</span>
+  <p>After 30 years at 5%, how much larger is the compound result than the simple result? Choose a number before you continue: 10% larger, 40% larger, or 70% larger.</p>
+</div>
+
+<figure>
+  <p class="fig-title">After 30 years, compound interest gives US$43,219. Simple interest gives US$25,000.</p>
+  <p class="fig-sub">Balance in US dollars. Starting money $10,000, rate 5% per year, no money added or removed.</p>
+  <div class="fig-scroll">
+  <svg viewBox="0 0 640 320" role="img" aria-label="Line chart. Compound interest grows from 10,000 dollars to 43,219 dollars in 30 years. Simple interest grows from 10,000 dollars to 25,000 dollars.">
+    <!-- horizontal gridlines at 0, 10k, 20k, 30k, 40k, 50k -->
+    <line class="axis" x1="60" y1="270" x2="520" y2="270"/>
+    <line class="grid" x1="60" y1="220" x2="520" y2="220"/>
+    <line class="grid" x1="60" y1="170" x2="520" y2="170"/>
+    <line class="grid" x1="60" y1="120" x2="520" y2="120"/>
+    <line class="grid" x1="60" y1="70" x2="520" y2="70"/>
+    <line class="grid" x1="60" y1="20" x2="520" y2="20"/>
+    <text class="axis-label" x="52" y="274" text-anchor="end">$0</text>
+    <text class="axis-label" x="52" y="224" text-anchor="end">$10k</text>
+    <text class="axis-label" x="52" y="174" text-anchor="end">$20k</text>
+    <text class="axis-label" x="52" y="124" text-anchor="end">$30k</text>
+    <text class="axis-label" x="52" y="74" text-anchor="end">$40k</text>
+    <text class="axis-label" x="52" y="24" text-anchor="end">$50k</text>
+    <!-- x axis labels -->
+    <text class="axis-label" x="60" y="292" text-anchor="middle">Year 0</text>
+    <text class="axis-label" x="213.3" y="292" text-anchor="middle">10</text>
+    <text class="axis-label" x="366.7" y="292" text-anchor="middle">20</text>
+    <text class="axis-label" x="520" y="292" text-anchor="middle">30</text>
+    <!-- simple interest: straight, dashed, so it differs by shape and by colour -->
+    <polyline fill="none" stroke="var(--s2)" stroke-width="3" stroke-dasharray="7 5"
+      points="60,220 520,145"/>
+    <!-- compound interest: curve through the 5-year points -->
+    <polyline fill="none" stroke="var(--s1)" stroke-width="3"
+      points="60,220 136.7,206.2 213.3,188.6 290,166.1 366.7,137.3 443.3,100.7 520,53.9"/>
+    <circle cx="520" cy="53.9" r="4.5" fill="var(--s1)"/>
+    <circle cx="520" cy="145" r="4.5" fill="var(--s2)"/>
+    <!-- direct labels, no legend -->
+    <text x="530" y="50" font-size="14" font-weight="650">Compound</text>
+    <text x="530" y="68" font-size="14">$43,219</text>
+    <text x="530" y="141" font-size="14" font-weight="650">Simple</text>
+    <text x="530" y="159" font-size="14">$25,000</text>
+  </svg>
+  </div>
+  <p class="fig-read"><strong>How to read this chart:</strong> the horizontal direction is time in years. The vertical direction is the balance. The solid line is compound interest. The dashed line is simple interest.</p>
+  <p class="fig-source">Source: calculated with the formula in section 2.</p>
+</figure>
+
+<p><strong>Answer to the guess:</strong> $43,219 ÷ $25,000 = 1.73. The compound result is about 73% larger.</p>
+
+<div class="table-wrap">
+<table>
+  <caption>Exact values for the chart above</caption>
+  <thead>
+    <tr><th>After year</th><th class="num">Simple (US$)</th><th class="num">Compound (US$)</th><th class="num">Difference (US$)</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">0</th><td class="num">10,000.00</td><td class="num">10,000.00</td><td class="num">0.00</td></tr>
+    <tr><th scope="row">10</th><td class="num">15,000.00</td><td class="num">16,288.95</td><td class="num">1,288.95</td></tr>
+    <tr><th scope="row">20</th><td class="num">20,000.00</td><td class="num">26,532.98</td><td class="num">6,532.98</td></tr>
+    <tr class="highlight"><th scope="row">30</th><td class="num">25,000.00</td><td class="num">43,219.42</td><td class="num">18,219.42</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== 7. COMMON WRONG IDEA. State it, say it is wrong, give the correct idea and the reason. ===== -->
+<h2 id="mistake">4. Wrong idea corrected: 30 years at 5% give 332% growth, not 150%</h2>
+<div class="box mistake">
+  <span class="label">Common wrong idea</span>
+  <p><strong>Wrong:</strong> "5% per year for 30 years is 5 × 30 = 150% growth in total."</p>
+  <p><strong>Correct:</strong> the growth is 332%. The balance goes from $10,000 to $43,219.</p>
+  <p><strong>Why the wrong idea fails:</strong> 5 × 30 adds the rates. But each year's 5% applies to a larger balance, so the yearly factors must be multiplied: 1.05 × 1.05 × … (30 times) = 4.32.</p>
+</div>
+
+<!-- ===== 8. LIMITS. Where the explanation stops being true, and what is not known. ===== -->
+<h2 id="limits">5. Limits: real rates change, and inflation and tax reduce the result</h2>
+<div class="box limits">
+  <span class="label">Limits</span>
+  <ul>
+    <li><strong>The rate is not fixed in real life.</strong> Bank rates change. The numbers above assume 5% every year.</li>
+    <li><strong>Inflation is not included.</strong> $43,219 in 30 years buys less than $43,219 today.</li>
+    <li><strong>Tax is not included.</strong> In many countries you pay tax on interest.</li>
+  </ul>
+</div>
+
+<!-- ===== 9. SELF-CHECK. Questions need recall or application. Answers include the reasoning. ===== -->
+<h2 id="check">6. Check your understanding</h2>
+<div class="check">
+  <span class="label">Try to answer before you open each answer.</span>
+  <ol>
+    <li>You have $2,000 at 10% compound interest per year. What is the balance after 2 years?
+      <details>
+        <summary>Show the answer</summary>
+        <div>
+          <p><strong>$2,420.</strong></p>
+          <p>Year 1: $2,000 × 1.10 = $2,200. Year 2: $2,200 × 1.10 = $2,420. If your answer was $2,400, you used simple interest. See <a href="#example">section 1</a>.</p>
+        </div>
+      </details>
+    </li>
+    <li>Why is the compound line in the chart a curve, and the simple line straight?
+      <details>
+        <summary>Show the answer</summary>
+        <div>
+          <p>Simple interest adds the same amount every year, so the line rises at a constant rate. Compound interest adds a larger amount every year, so the line becomes steeper.</p>
+        </div>
+      </details>
+    </li>
+  </ol>
+</div>
+
+<!-- ===== 10. RECAP, GLOSSARY, SOURCES ===== -->
+<h2 id="recap">7. Recap, glossary, and sources</h2>
+<div class="box recap">
+  <span class="label">Recap</span>
+  <ol>
+    <li>Compound interest is calculated on the current balance, which includes earlier interest.</li>
+    <li>The formula is: final balance = starting money × (1 + rate)^years.</li>
+    <li>The difference between compound and simple interest is small at first and large later: $1,289 after 10 years, $18,219 after 30 years.</li>
+  </ol>
+</div>
+
+<h3>Glossary</h3>
+<dl class="glossary">
+  <dt>Balance</dt>
+  <dd>The amount of money in the account at one moment.</dd>
+  <dt>Compound interest</dt>
+  <dd>Interest that is calculated on the current balance. The current balance includes earlier interest.</dd>
+  <dt>Interest</dt>
+  <dd>Money the bank pays you for keeping your money there.</dd>
+  <dt>Simple interest</dt>
+  <dd>Interest that is calculated on the starting money only.</dd>
+</dl>
+
+<h3>Sources and confidence</h3>
+<p>Confidence labels on this page: <span class="conf high">High</span> = verified in a primary source or by calculation. <span class="conf medium">Medium</span> = one good source, or sources with limits. <span class="conf low">Low</span> = not verified, or sources disagree. <span class="conf given">Given</span> = a value from your message or an example value.</p>
+<ol class="sources">
+  <li><span class="conf given">Given</span> Starting money, rate, and number of years are example values.</li>
+  <li><span class="conf high">High</span> Calculated: all balances use the formula in section 2. You can check each number with a calculator.</li>
+  <!-- The title of a source is quoted text. The language rules do not apply to it. -->
+  <li><span class="conf medium">Medium</span> Definition of the two types of interest: <span class="quoted">Compound Interest: What It Is and How It Adds Up</span>, a general reference text. This entry only shows the form of an external source. It is not a real citation.</li>
+</ol>
+
+</main>
+<script>
+// Open every hidden answer before printing, so the printed page is complete.
+window.addEventListener("beforeprint", function () {
+  document.querySelectorAll("details").forEach(function (d) { d.open = true; });
+});
+// Mark each table that is wider than its frame. The styles then show a hint and keep the title in view.
+function markWideTables() {
+  document.querySelectorAll(".table-wrap").forEach(function (w) {
+    w.classList.toggle("scrolls", w.scrollWidth > w.clientWidth + 1);
+    w.style.setProperty("--wrap-width", w.clientWidth + "px");
+  });
+}
+window.addEventListener("load", markWideTables);
+window.addEventListener("resize", markWideTables);
+</script>
+</body>
+</html>

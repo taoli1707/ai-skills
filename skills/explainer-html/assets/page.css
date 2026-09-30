@@ -1,0 +1,451 @@
+/* ---------- Typefaces. System serif only, so the page needs no external font. ---------- */
+:root {
+  --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, "Sitka Text", Georgia,
+    "Songti SC", "Hiragino Mincho ProN", "Noto Serif CJK SC", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* ---------- Colour tokens. Light is the default: warm paper, near-black ink. ---------- */
+:root {
+  --bg: #fdfcf9;
+  --surface: #f2efe7;
+  --text: #1a1713;
+  --muted: #5c564e;
+  --border: #d5cfc2;
+  --accent: #8a2e1c;
+  --accent-soft: #f1e7e2;
+  --good: #11632a;
+  --good-soft: #e9f1e7;
+  --warn: #7a4300;
+  --warn-soft: #f6eddc;
+  --bad: #a1260d;
+  --bad-soft: #f7e8e3;
+  /* Chart series colours: blue, amber, purple, green. Validated for colour-blind readers:
+     every pair stays distinct under protan, deutan, and tritan simulation, in both themes.
+     Use them in this order. Use at most 4 series in one chart. */
+  --s1: #1c5293;
+  --s2: #863709;
+  --s3: #9260da;
+  --s4: #25984d;
+  --grid: #e5dfd2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16130f;
+    --surface: #221e18;
+    --text: #ece5da;
+    --muted: #a99e91;
+    --border: #3c352c;
+    --accent: #e4a392;
+    --accent-soft: #2b1f1a;
+    --good: #7fd69a;
+    --good-soft: #17251a;
+    --warn: #f0b861;
+    --warn-soft: #2c2314;
+    --bad: #ff9d8a;
+    --bad-soft: #2f1c17;
+    --s1: #0774aa;
+    --s2: #9e590d;
+    --s3: #a473ee;
+    --s4: #09af51;
+    --grid: #2e2821;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16130f;
+  --surface: #221e18;
+  --text: #ece5da;
+  --muted: #a99e91;
+  --border: #3c352c;
+  --accent: #e4a392;
+  --accent-soft: #2b1f1a;
+  --good: #7fd69a;
+  --good-soft: #17251a;
+  --warn: #f0b861;
+  --warn-soft: #2c2314;
+  --bad: #ff9d8a;
+  --bad-soft: #2f1c17;
+  --s1: #0774aa;
+  --s2: #9e590d;
+  --s3: #a473ee;
+  --s4: #09af51;
+  --grid: #2e2821;
+}
+
+/* ---------- Base text. One measure, left-aligned, generous line spacing. ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  text-align: left;
+  overflow-wrap: break-word;
+  font-kerning: normal;
+  font-synthesis: none;
+}
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 16px 5rem;
+}
+
+/* Headings carry the structure through size and space. No rules across the page,
+   except one short mark above each section heading. */
+h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
+h1 {
+  font-size: 2.3rem;
+  line-height: 1.17;
+  letter-spacing: -0.012em;
+  margin-bottom: 0.9rem;
+}
+h2 {
+  font-size: 1.5rem;
+  line-height: 1.26;
+  margin-top: 3.4rem;
+  margin-bottom: 0.7rem;
+}
+h2::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  border-top: 1px solid var(--accent);
+  margin-bottom: 1.1rem;
+}
+h3 { font-size: 1.15rem; margin-top: 1.9rem; margin-bottom: 0.45rem; }
+p, ul, ol, dl, table, figure { margin: 0 0 1.15rem; }
+p { text-wrap: pretty; }
+ul, ol { padding-left: 1.3rem; }
+li { margin-bottom: 0.4rem; }
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+strong { font-weight: 600; }
+.num, td.num, th.num { font-variant-numeric: tabular-nums; }
+
+/* Code keeps only its own typeface. No chip, no frame around a word. */
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+}
+pre {
+  background: var(--surface);
+  border-left: 2px solid var(--border);
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  line-height: 1.55;
+  font-size: 0.95rem;
+  margin: 0 0 1.3rem;
+}
+pre code { font-size: 1em; }
+
+/* ---------- Page header. One line under the title closes the masthead. ---------- */
+.meta {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1rem;
+  margin: 0 0 2.6rem;
+}
+
+/* ---------- Boxes. No fill and no frame: a rule and space set each one apart.
+              Every box keeps its written label, so colour is never the only signal. ---------- */
+.box { margin: 0 0 1.7rem; }
+.box > :last-child { margin-bottom: 0; }
+.box .label {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+/* The short answer is the opening statement of the page. Heaviest rule, largest text. */
+.bottom-line {
+  border-top: 2px solid var(--text);
+  border-bottom: 1px solid var(--border);
+  padding: 1.05rem 0 1.15rem;
+  font-size: 1.16rem;
+  line-height: 1.6;
+}
+.bottom-line .label { color: var(--text); }
+.example { border-left: 1px solid var(--border); padding-left: 1.4rem; }
+.mistake { border-left: 2px solid var(--bad); padding-left: 1.4rem; }
+.mistake .label { color: var(--bad); }
+.limits { border-top: 1px solid var(--border); padding-top: 1rem; font-size: 1.05rem; }
+.assume {
+  border-left: 1px solid var(--border);
+  padding-left: 1.4rem;
+  font-size: 1.05rem;
+}
+.assume .label { color: var(--muted); }
+.predict { border-left: 2px solid var(--accent); padding-left: 1.4rem; }
+.predict .label { color: var(--accent); }
+.recap { border-top: 2px solid var(--text); padding-top: 1rem; }
+.recap .label { color: var(--text); }
+
+/* ---------- Contents list ---------- */
+nav.contents {
+  border-left: 1px solid var(--border);
+  padding: 0 0 0 1.4rem;
+  margin: 0 0 2rem;
+  font-size: 1.05rem;
+}
+nav.contents ol { margin: 0; padding-left: 1.4rem; }
+nav.contents li { margin-bottom: 0.3rem; }
+nav.contents a { color: var(--text); text-decoration-color: var(--border); }
+nav.contents a:hover { text-decoration-color: var(--accent); }
+nav.contents .label {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+
+/* ---------- Key terms. The definition is in the sentence, not in a tooltip. ---------- */
+dfn {
+  font-style: normal;
+  font-weight: 600;
+  border-bottom: 1px solid var(--accent);
+}
+dl.glossary dt { font-weight: 600; margin-top: 0.85rem; }
+dl.glossary dd { margin: 0.1rem 0 0 0; }
+
+/* ---------- Numbered reasoning steps. The numeral sits in the margin, as in a book. ---------- */
+ol.steps { list-style: none; padding: 0; counter-reset: step; }
+ol.steps > li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 0.2rem 2.5rem;
+  margin-bottom: 1rem;
+}
+ol.steps > li::before {
+  content: counter(step) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.7rem;
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+.why {
+  display: block;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1.02rem;
+  margin-top: 0.1rem;
+}
+.why::before { content: "Reason: "; font-weight: 400; }
+
+/* ---------- Tables. Print rules only: one above the header, one under each row. ---------- */
+.table-wrap { overflow-x: auto; margin: 0 0 1.15rem; }
+.table-wrap table { margin: 0; }
+/* When a table is wider than its frame, the script adds the class "scrolls". Then the title
+   stays in view and a hint appears. */
+.table-wrap.scrolls caption { position: sticky; left: 0; max-width: var(--wrap-width, 100%); }
+.table-wrap.scrolls::before {
+  content: "Move the table sideways to see all of it.";
+  display: block;
+  position: sticky;
+  left: 0;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+table { border-collapse: collapse; width: 100%; font-size: 1.02rem; line-height: 1.5; }
+caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+th, td {
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+th:first-child, td:first-child { padding-left: 0; }
+th:last-child, td:last-child { padding-right: 0; }
+thead th {
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
+  font-weight: 600;
+}
+td.num, th.num { text-align: right; }
+td.num { white-space: nowrap; }
+.table-read { font-size: 1rem; margin: -0.4rem 0 1.15rem; }
+tbody th { font-weight: 400; }
+tr.highlight td, tr.highlight th { background: var(--surface); font-weight: 600; }
+
+/* ---------- Figures. The title is a sentence that states the finding. ---------- */
+figure {
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0 1rem;
+}
+figure .fig-title { font-weight: 600; font-size: 1.08rem; margin: 0 0 0.15rem; }
+figure .fig-sub { color: var(--muted); font-style: italic; font-size: 0.98rem; margin: 0 0 0.7rem; }
+figure .fig-read { font-size: 1rem; margin: 0.7rem 0 0; }
+figure .fig-source { color: var(--muted); font-style: italic; font-size: 0.93rem; margin: 0.35rem 0 0; }
+figure svg { display: block; width: 100%; height: auto; }
+/* On a narrow screen a figure keeps a readable size and scrolls inside its own frame. */
+.fig-scroll { overflow-x: auto; }
+.fig-scroll svg { min-width: 34rem; }
+@media (max-width: 40rem) {
+  .fig-scroll::before {
+    content: "Move the figure sideways to see all of it.";
+    display: block;
+    position: sticky;
+    left: 0;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+}
+svg text { font-family: var(--serif); fill: var(--text); }
+svg .axis-label { fill: var(--muted); font-size: 13px; }
+svg .grid { stroke: var(--grid); stroke-width: 1; }
+svg .axis { stroke: var(--muted); stroke-width: 1; }
+/* Diagram parts. A box is a thing. An arrow means "causes" or "then". */
+svg .node { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+svg .arrow { fill: none; stroke: var(--text); stroke-width: 1.5; }
+svg .arrow-head { fill: var(--text); }
+svg .node-name { font-size: 14px; font-weight: 600; }
+svg .node-value { font-size: 13px; fill: var(--muted); }
+svg .arrow-label { font-size: 13px; font-style: italic; }
+
+/* ---------- Text that is quoted from a source or from data. The language rules do not apply to it. ---------- */
+.quoted { font-style: italic; }
+
+/* ---------- Side-by-side comparison. One hairline divides the two cases. ---------- */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.7rem;
+  margin: 0 0 1.7rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.95rem 0 1rem;
+}
+.compare > div > :last-child { margin-bottom: 0; }
+.compare > div + div { border-left: 1px solid var(--border); padding-left: 1.7rem; }
+.compare h4 { margin: 0 0 0.4rem; font-size: 1.04rem; font-weight: 600; }
+@media (max-width: 560px) {
+  .compare { grid-template-columns: 1fr; gap: 1.1rem 0; }
+  .compare > div + div {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 1.1rem;
+  }
+}
+
+/* ---------- Self-check questions. The answer is hidden until the reader tries. ---------- */
+.check {
+  border-top: 2px solid var(--text);
+  padding-top: 1rem;
+  margin: 0 0 1.8rem;
+}
+.check .label {
+  display: block;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+.check ol { margin-bottom: 0; }
+.check li { margin-bottom: 1rem; }
+details { margin-top: 0.4rem; }
+summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-style: italic;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+details > div {
+  margin-top: 0.5rem;
+  padding: 0.1rem 0 0.1rem 1.1rem;
+  border-left: 1px solid var(--border);
+}
+details > div > :last-child { margin-bottom: 0; }
+
+/* ---------- Optional depth. Visible label, one level only. ---------- */
+details.optional {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  margin: 0 0 1.7rem;
+}
+details.optional > summary::before {
+  content: "Optional detail: ";
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ---------- Part heading, for a page with several parts ---------- */
+.part {
+  margin: 4rem 0 0;
+  padding: 0 0 0.35rem;
+  border-bottom: 1px solid var(--text);
+  font-size: 1.02rem;
+  font-weight: 400;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+.part + h2 { margin-top: 1.3rem; }
+.part + h2::before { content: none; }
+nav.contents .core::after {
+  content: " (main path)";
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+/* ---------- Confidence labels. Small capitals plus the word, never colour alone. ---------- */
+.conf {
+  font-size: 1rem;
+  font-weight: 400;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.conf.high { color: var(--good); }
+.conf.medium { color: var(--warn); }
+.conf.low { color: var(--bad); }
+.conf.given { color: var(--muted); }
+ol.sources { font-size: 1.05rem; }
+ol.sources li { margin-bottom: 0.7rem; }
+
+/* ---------- Narrow screens. The title drops one step, the measure keeps its gutter. ---------- */
+@media (max-width: 30rem) {
+  body { font-size: 1.06rem; }
+  main { padding: 2.2rem 16px 4rem; }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.32rem; margin-top: 2.8rem; }
+  .bottom-line { font-size: 1.1rem; }
+}
+
+/* ---------- Print. All hidden answers are opened by the script at the end of the file. ---------- */
+@media print {
+  body { font-size: 11pt; background: #fff; color: #000; }
+  main { max-width: none; padding: 0; }
+  nav.contents { display: none; }
+  h2 { margin-top: 2rem; }
+  .box, figure, .check, table, .compare { break-inside: avoid; }
+  a { color: inherit; }
+}

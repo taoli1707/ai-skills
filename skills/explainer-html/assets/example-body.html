@@ -1,0 +1,289 @@
+
+<!-- ===== 1. HEADER. The h1 is a question or a claim. ===== -->
+<h1>How does compound interest make money grow faster over time?</h1>
+<!-- The build script fills {{today}}, {{minutes}}, and {{main_path_minutes}}. -->
+<p class="meta">Written {{today}} · Reading time: about {{minutes}} minutes · You need to know: percentages</p>
+
+<!-- ===== 2. THE SHORT ANSWER. Conclusion first, with the key numbers. ===== -->
+<div class="box bottom-line">
+  <span class="label">The short answer</span>
+  <p>With compound interest, you earn interest on your earlier interest, not only on your starting money. The result is growth that becomes faster every year.</p>
+  <p><strong>Example:</strong> US$10,000 at 5% per year becomes <strong>$43,219</strong> after 30 years with compound interest. With simple interest it becomes <strong>$25,000</strong>. The difference is $18,219.</p>
+</div>
+
+<!-- ===== ASSUMPTIONS. Use this box when the request of the reader leaves something open. ===== -->
+<div class="box assume">
+  <span class="label">Assumptions on this page</span>
+  <ul>
+    <li>The rate is 5% in every year.</li>
+    <li>The bank adds the interest one time per year.</li>
+    <li>You do not add money and you do not remove money.</li>
+  </ul>
+</div>
+
+<!-- ===== 3. CONTENTS. Each entry is a statement, not a topic word. ===== -->
+<nav class="contents">
+  <span class="label">On this page</span>
+  <ol>
+    <li><a href="#example">One example: US$10,000 grows to US$11,576 in 3 years</a></li>
+    <li><a href="#rule">The rule: each year multiplies the balance by 1.05</a></li>
+    <li><a href="#data">The difference grows every year: US$1,289 after 10 years, US$18,219 after 30</a></li>
+    <li><a href="#mistake">Wrong idea corrected: 30 years at 5% give 332% growth, not 150%</a></li>
+    <li><a href="#limits">Limits: real rates change, and inflation and tax reduce the result</a></li>
+    <li><a href="#check">Check your understanding</a></li>
+    <li><a href="#recap">Recap, glossary, and sources</a></li>
+  </ol>
+</nav>
+
+<!-- ===== 4. CONCRETE EXAMPLE FIRST. Real numbers, every step shown. ===== -->
+<h2 id="example">1. One example: US$10,000 grows to US$11,576 in 3 years</h2>
+<p>You put US$10,000 in a bank account. The bank pays 5% <dfn>interest</dfn> (money the bank pays you for keeping your money there) every year. You do not take any money out. The <dfn>balance</dfn> (the amount of money in the account at one moment) is US$10,000 at the start.</p>
+
+<div class="box example">
+  <span class="label">Worked example</span>
+  <ol class="steps">
+    <li>Year 1: $10,000 × 0.05 = <strong>$500</strong> interest. New balance: $10,500.
+      <span class="why">5% written as a decimal is 0.05.</span></li>
+    <li>Year 2: $10,500 × 0.05 = <strong>$525</strong> interest. New balance: $11,025.
+      <span class="why">The bank now calculates 5% of $10,500, not of $10,000. The extra $25 is interest on last year's $500.</span></li>
+    <li>Year 3: $11,025 × 0.05 = <strong>$551.25</strong> interest. New balance: $11,576.25.
+      <span class="why">The balance is larger again, so the interest is larger again.</span></li>
+  </ol>
+  <p><strong>Result:</strong> the interest grows each year: $500, then $525, then $551.25.</p>
+</div>
+
+<!-- ===== 5. THE RULE. Abstract idea after the example. ===== -->
+<h2 id="rule">2. The rule: each year multiplies the balance by 1.05</h2>
+<p>Each year, the balance is multiplied by 1.05. After <code>n</code> years, the balance is multiplied by 1.05 exactly <code>n</code> times.</p>
+<pre><code>final balance = starting money × (1 + rate)^years
+$11,576.25    = $10,000        × (1 + 0.05)^3</code></pre>
+
+<!-- A DIAGRAM shows structure, sequence, or cause. The title is a sentence. No number is necessary in the title of a diagram. -->
+<figure class="diagram">
+  <p class="fig-title">A larger balance produces larger interest, and larger interest produces a larger balance.</p>
+  <p class="fig-sub">The values are the values of year 1 in the example.</p>
+  <div class="fig-scroll">
+  <svg viewBox="0 0 640 200" role="img" aria-label="Diagram of a cycle. The start balance multiplied by 0.05 gives the interest of the year. The interest is added to the start balance and gives the end balance. The end balance is the start balance of the next year.">
+    <defs>
+      <marker id="arrow-head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path class="arrow-head" d="M 0 0 L 10 5 L 0 10 z"/>
+      </marker>
+    </defs>
+    <rect class="node" x="20" y="44" width="170" height="64" rx="8"/>
+    <text class="node-name" x="105" y="71" text-anchor="middle">Start balance</text>
+    <text class="node-value" x="105" y="92" text-anchor="middle">US$10,000</text>
+    <rect class="node" x="235" y="44" width="170" height="64" rx="8"/>
+    <text class="node-name" x="320" y="71" text-anchor="middle">Interest of the year</text>
+    <text class="node-value" x="320" y="92" text-anchor="middle">US$500</text>
+    <rect class="node" x="450" y="44" width="170" height="64" rx="8"/>
+    <text class="node-name" x="535" y="71" text-anchor="middle">End balance</text>
+    <text class="node-value" x="535" y="92" text-anchor="middle">US$10,500</text>
+    <line class="arrow" x1="192" y1="76" x2="232" y2="76" marker-end="url(#arrow-head)"/>
+    <text class="arrow-label" x="212" y="32" text-anchor="middle">× 0.05</text>
+    <line class="arrow" x1="407" y1="76" x2="447" y2="76" marker-end="url(#arrow-head)"/>
+    <text class="arrow-label" x="427" y="32" text-anchor="middle">+ start balance</text>
+    <path class="arrow" d="M 535 110 V 150 H 105 V 112" marker-end="url(#arrow-head)"/>
+    <text class="arrow-label" x="320" y="176" text-anchor="middle">The end balance is the start balance of the next year.</text>
+  </svg>
+  </div>
+  <p class="fig-read"><strong>How to read this diagram:</strong> each box is an amount of money. Each arrow means "produces". Start at the left box and follow the arrows.</p>
+</figure>
+
+<h3>Compare the two types of interest</h3>
+<p>The example in section 1 uses <dfn>compound interest</dfn>: the bank calculates the interest on the current balance. The other type is <dfn>simple interest</dfn>: the bank calculates the interest on the starting money only.</p>
+<div class="compare">
+  <div>
+    <h4>Simple interest</h4>
+    <p>Interest is calculated on the starting money only.</p>
+    <p>Every year: the same $500.</p>
+  </div>
+  <div>
+    <h4>Compound interest</h4>
+    <p>Interest is calculated on the current balance.</p>
+    <p>Every year: more than the year before.</p>
+  </div>
+</div>
+
+<details class="optional">
+  <summary>What changes when the bank adds interest every month</summary>
+  <div>
+    <p>Some banks add interest 12 times per year. Then each month multiplies the balance by (1 + 0.05 ÷ 12). After 3 years the balance is US$11,614.72. This is US$38.47 more than with yearly interest.</p>
+  </div>
+</details>
+
+<!-- A COMPARISON TABLE: one row per option, one column per criterion, the unit in the column header. -->
+<div class="table-wrap">
+<table>
+  <caption>The two types of interest pay the same in year 1 and very different amounts in year 30</caption>
+  <thead>
+    <tr><th>Type of interest</th><th>Base of the calculation</th><th class="num">Interest in year 1 (US$)</th><th class="num">Interest in year 30 (US$)</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">Simple</th><td>Starting money</td><td class="num">500.00</td><td class="num">500.00</td></tr>
+    <tr class="highlight"><th scope="row">Compound</th><td>Current balance</td><td class="num">500.00</td><td class="num">2,058.07</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-read"><strong>How to read this table:</strong> each row is one type of interest. Compare the two rows column by column.</p>
+
+<!-- A DECISION TABLE: one row per case. The reading line says how to use it. -->
+<h3>Which formula fits your account</h3>
+<div class="table-wrap">
+<table>
+  <caption>The formula depends on two conditions</caption>
+  <thead>
+    <tr><th>Does the bank add the interest to the balance?</th><th class="num">How many times per year?</th><th>Formula for the final balance</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>No</td><td class="num">Not relevant</td><td><code>starting money × (1 + rate × years)</code></td></tr>
+    <tr class="highlight"><td>Yes</td><td class="num">1</td><td><code>starting money × (1 + rate)^years</code></td></tr>
+    <tr><td>Yes</td><td class="num">12</td><td><code>starting money × (1 + rate ÷ 12)^(12 × years)</code></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-read"><strong>How to read this table:</strong> find the row that matches your account. The last column gives the formula. The highlighted row is the case of this page.</p>
+
+<!-- ===== 6. THE DATA. Predict first, then chart for the pattern, then table for exact values. ===== -->
+<h2 id="data">3. The difference grows every year: US$1,289 after 10 years, US$18,219 after 30</h2>
+
+<div class="box predict">
+  <span class="label">Guess first</span>
+  <p>After 30 years at 5%, how much larger is the compound result than the simple result? Choose a number before you continue: 10% larger, 40% larger, or 70% larger.</p>
+</div>
+
+<figure>
+  <p class="fig-title">After 30 years, compound interest gives US$43,219. Simple interest gives US$25,000.</p>
+  <p class="fig-sub">Balance in US dollars. Starting money $10,000, rate 5% per year, no money added or removed.</p>
+  <div class="fig-scroll">
+  <svg viewBox="0 0 640 320" role="img" aria-label="Line chart. Compound interest grows from 10,000 dollars to 43,219 dollars in 30 years. Simple interest grows from 10,000 dollars to 25,000 dollars.">
+    <!-- horizontal gridlines at 0, 10k, 20k, 30k, 40k, 50k -->
+    <line class="axis" x1="60" y1="270" x2="520" y2="270"/>
+    <line class="grid" x1="60" y1="220" x2="520" y2="220"/>
+    <line class="grid" x1="60" y1="170" x2="520" y2="170"/>
+    <line class="grid" x1="60" y1="120" x2="520" y2="120"/>
+    <line class="grid" x1="60" y1="70" x2="520" y2="70"/>
+    <line class="grid" x1="60" y1="20" x2="520" y2="20"/>
+    <text class="axis-label" x="52" y="274" text-anchor="end">$0</text>
+    <text class="axis-label" x="52" y="224" text-anchor="end">$10k</text>
+    <text class="axis-label" x="52" y="174" text-anchor="end">$20k</text>
+    <text class="axis-label" x="52" y="124" text-anchor="end">$30k</text>
+    <text class="axis-label" x="52" y="74" text-anchor="end">$40k</text>
+    <text class="axis-label" x="52" y="24" text-anchor="end">$50k</text>
+    <!-- x axis labels -->
+    <text class="axis-label" x="60" y="292" text-anchor="middle">Year 0</text>
+    <text class="axis-label" x="213.3" y="292" text-anchor="middle">10</text>
+    <text class="axis-label" x="366.7" y="292" text-anchor="middle">20</text>
+    <text class="axis-label" x="520" y="292" text-anchor="middle">30</text>
+    <!-- simple interest: straight, dashed, so it differs by shape and by colour -->
+    <polyline fill="none" stroke="var(--s2)" stroke-width="3" stroke-dasharray="7 5"
+      points="60,220 520,145"/>
+    <!-- compound interest: curve through the 5-year points -->
+    <polyline fill="none" stroke="var(--s1)" stroke-width="3"
+      points="60,220 136.7,206.2 213.3,188.6 290,166.1 366.7,137.3 443.3,100.7 520,53.9"/>
+    <circle cx="520" cy="53.9" r="4.5" fill="var(--s1)"/>
+    <circle cx="520" cy="145" r="4.5" fill="var(--s2)"/>
+    <!-- direct labels, no legend -->
+    <text x="530" y="50" font-size="14" font-weight="650">Compound</text>
+    <text x="530" y="68" font-size="14">$43,219</text>
+    <text x="530" y="141" font-size="14" font-weight="650">Simple</text>
+    <text x="530" y="159" font-size="14">$25,000</text>
+  </svg>
+  </div>
+  <p class="fig-read"><strong>How to read this chart:</strong> the horizontal direction is time in years. The vertical direction is the balance. The solid line is compound interest. The dashed line is simple interest.</p>
+  <p class="fig-source">Source: calculated with the formula in section 2.</p>
+</figure>
+
+<p><strong>Answer to the guess:</strong> $43,219 ÷ $25,000 = 1.73. The compound result is about 73% larger.</p>
+
+<div class="table-wrap">
+<table>
+  <caption>Exact values for the chart above</caption>
+  <thead>
+    <tr><th>After year</th><th class="num">Simple (US$)</th><th class="num">Compound (US$)</th><th class="num">Difference (US$)</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">0</th><td class="num">10,000.00</td><td class="num">10,000.00</td><td class="num">0.00</td></tr>
+    <tr><th scope="row">10</th><td class="num">15,000.00</td><td class="num">16,288.95</td><td class="num">1,288.95</td></tr>
+    <tr><th scope="row">20</th><td class="num">20,000.00</td><td class="num">26,532.98</td><td class="num">6,532.98</td></tr>
+    <tr class="highlight"><th scope="row">30</th><td class="num">25,000.00</td><td class="num">43,219.42</td><td class="num">18,219.42</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== 7. COMMON WRONG IDEA. State it, say it is wrong, give the correct idea and the reason. ===== -->
+<h2 id="mistake">4. Wrong idea corrected: 30 years at 5% give 332% growth, not 150%</h2>
+<div class="box mistake">
+  <span class="label">Common wrong idea</span>
+  <p><strong>Wrong:</strong> "5% per year for 30 years is 5 × 30 = 150% growth in total."</p>
+  <p><strong>Correct:</strong> the growth is 332%. The balance goes from $10,000 to $43,219.</p>
+  <p><strong>Why the wrong idea fails:</strong> 5 × 30 adds the rates. But each year's 5% applies to a larger balance, so the yearly factors must be multiplied: 1.05 × 1.05 × … (30 times) = 4.32.</p>
+</div>
+
+<!-- ===== 8. LIMITS. Where the explanation stops being true, and what is not known. ===== -->
+<h2 id="limits">5. Limits: real rates change, and inflation and tax reduce the result</h2>
+<div class="box limits">
+  <span class="label">Limits</span>
+  <ul>
+    <li><strong>The rate is not fixed in real life.</strong> Bank rates change. The numbers above assume 5% every year.</li>
+    <li><strong>Inflation is not included.</strong> $43,219 in 30 years buys less than $43,219 today.</li>
+    <li><strong>Tax is not included.</strong> In many countries you pay tax on interest.</li>
+  </ul>
+</div>
+
+<!-- ===== 9. SELF-CHECK. Questions need recall or application. Answers include the reasoning. ===== -->
+<h2 id="check">6. Check your understanding</h2>
+<div class="check">
+  <span class="label">Try to answer before you open each answer.</span>
+  <ol>
+    <li>You have $2,000 at 10% compound interest per year. What is the balance after 2 years?
+      <details>
+        <summary>Show the answer</summary>
+        <div>
+          <p><strong>$2,420.</strong></p>
+          <p>Year 1: $2,000 × 1.10 = $2,200. Year 2: $2,200 × 1.10 = $2,420. If your answer was $2,400, you used simple interest. See <a href="#example">section 1</a>.</p>
+        </div>
+      </details>
+    </li>
+    <li>Why is the compound line in the chart a curve, and the simple line straight?
+      <details>
+        <summary>Show the answer</summary>
+        <div>
+          <p>Simple interest adds the same amount every year, so the line rises at a constant rate. Compound interest adds a larger amount every year, so the line becomes steeper.</p>
+        </div>
+      </details>
+    </li>
+  </ol>
+</div>
+
+<!-- ===== 10. RECAP, GLOSSARY, SOURCES ===== -->
+<h2 id="recap">7. Recap, glossary, and sources</h2>
+<div class="box recap">
+  <span class="label">Recap</span>
+  <ol>
+    <li>Compound interest is calculated on the current balance, which includes earlier interest.</li>
+    <li>The formula is: final balance = starting money × (1 + rate)^years.</li>
+    <li>The difference between compound and simple interest is small at first and large later: $1,289 after 10 years, $18,219 after 30 years.</li>
+  </ol>
+</div>
+
+<h3>Glossary</h3>
+<dl class="glossary">
+  <dt>Balance</dt>
+  <dd>The amount of money in the account at one moment.</dd>
+  <dt>Compound interest</dt>
+  <dd>Interest that is calculated on the current balance. The current balance includes earlier interest.</dd>
+  <dt>Interest</dt>
+  <dd>Money the bank pays you for keeping your money there.</dd>
+  <dt>Simple interest</dt>
+  <dd>Interest that is calculated on the starting money only.</dd>
+</dl>
+
+<h3>Sources and confidence</h3>
+<p>Confidence labels on this page: <span class="conf high">High</span> = verified in a primary source or by calculation. <span class="conf medium">Medium</span> = one good source, or sources with limits. <span class="conf low">Low</span> = not verified, or sources disagree. <span class="conf given">Given</span> = a value from your message or an example value.</p>
+<ol class="sources">
+  <li><span class="conf given">Given</span> Starting money, rate, and number of years are example values.</li>
+  <li><span class="conf high">High</span> Calculated: all balances use the formula in section 2. You can check each number with a calculator.</li>
+  <!-- The title of a source is quoted text. The language rules do not apply to it. -->
+  <li><span class="conf medium">Medium</span> Definition of the two types of interest: <span class="quoted">Compound Interest: What It Is and How It Adds Up</span>, a general reference text. This entry only shows the form of an external source. It is not a real citation.</li>
+</ol>
+
