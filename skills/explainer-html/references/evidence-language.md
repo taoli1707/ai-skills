@@ -65,7 +65,7 @@ Source for idioms: http://www.drronmartinez.com/uploads/4/4/8/2/44820161/effect_
 
 | Standard | Concrete rules | Source |
 |---|---|---|
-| ASD-STE100 Simplified Technical English | Maximum 20 words per sentence in instructions, 25 in descriptions. Maximum 6 sentences per paragraph. No noun clusters longer than 3 words. Active voice. One meaning per word. (SECONDARY) | https://en.wikipedia.org/wiki/Simplified_Technical_English |
+| ASD-STE100 Simplified Technical English, Issue 9 (2025-01-15) | Rule 5.1: maximum 20 words per sentence in procedures; rule 6.3: 25 in descriptive text. Rule 6.6: no paragraph over 6 sentences; 6.5: one topic per paragraph. Rule 2.1: multi-word nouns of at most 3 words. Rule 3.6: active voice; passive in descriptive text only when the agent is unknown. Rules 1.2 and 1.3: an approved word only as its one part of speech and its one meaning. Rule 3.2: only the infinitive, imperative, simple present, simple past, simple future and the past participle as an adjective; 3.4: no stacked auxiliaries; 3.5: "-ing" only in a technical noun. Rule 4.2: no contractions; 4.5: keep the articles. 53 rules in 9 sections. The text gives no total for the dictionary; a count of uppercase headwords with a part of speech in the PDF gives 724, and secondary sources say about 900. (OPENED, the Issue 9 PDF) | https://www.asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf |
 | US Federal Plain Language Guidelines | One idea per sentence. Paragraphs of 3 to 8 sentences. At most 3 abbreviations per document. Write "for example", not "e.g.". Avoid "and/or". Avoid hidden verbs. (OPENED) | https://digital.gov/guides/plain-language/writing/clear-short |
 | ISO 24495-1:2023 | Success is measured by how well readers can use the document, not by readability formulas. (OPENED, preview pages) | ISO preview |
 | Microsoft Style Guide, global communications | Keep "that" and "who". Keep articles. At most two phrases joined with "and", "or", "but". One word for one concept. (OPENED) | https://learn.microsoft.com/en-us/style-guide/global-communications/writing-tips |
@@ -155,7 +155,7 @@ All sources are guidance documents, not experiments. All OPENED.
 
 ## 12. Gaps: what was not verified
 
-- ASD-STE100 official text: the site refused access. Rules come from secondary sources.
+- ASD-STE100: the Issue 9 PDF was opened on 2026-10-06 and the rule numbers above are from it. The dictionary's word count is still an estimate.
 - ISO 24495-1 full text: only the preview pages were read.
 - Hu and Nation 2000 original: a scanned file without readable text.
 - No second-language experiments were found for: abbreviations, nominalizations, double negatives, tables, synonym variation.

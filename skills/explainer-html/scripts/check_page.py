@@ -628,6 +628,26 @@ def check(path, kind, offset=0, source=None):
         rep.add("text", "WARN", f"Phrasal verbs: {len(ph_hits)}. Use a one-word verb when the "
                                 "meaning stays the same.", ph_hits)
 
+    # ASD-STE100 rules 3.2, 3.4 and 3.5: simple verb forms only. An "-ing" verb after a
+    # preposition or a form of "be", or a stack of auxiliaries, is the usual way one creeps in.
+    # A technical noun ("the sampling rate") is excluded by the following-word test.
+    ING_LEAD = r"\b(by|while|when|before|after|without|is|are|was|were|been|being)\s+(\w+ing)\b(?!\s+(rate|time|point|mode|level|window|loop|frame|phase|process|order|cost|list|table|tool|step))"
+    ING_SKIP = {"thing", "nothing", "something", "anything", "everything", "during", "morning", "evening",
+                "ring", "string", "spring", "sing", "bring", "king", "wing", "ceiling", "building",
+                "according", "following", "regarding", "including", "meaning", "sampling", "setting", "warning"}
+    ing_hits = []
+    for b in text_blocks:
+        for m in re.finditer(ING_LEAD, b["text"], re.IGNORECASE):
+            if m.group(2).lower() in ING_SKIP:
+                continue
+            ing_hits.append(f"line {b['line']}: \"{m.group(0)}\" in \"{short(b['text'], 70)}\"")
+        for m in re.finditer(r"\b(would|could|should|might|may|will|can)\s+have\s+been\b", b["text"], re.IGNORECASE):
+            ing_hits.append(f"line {b['line']}: \"{m.group(0)}\" in \"{short(b['text'], 70)}\"")
+    if ing_hits:
+        rep.add("text", "WARN", f"\"-ing\" verb forms or stacked auxiliaries: {len(ing_hits)}. Use a simple "
+                                "verb form: the simple present, past or future, or the imperative "
+                                "(ASD-STE100 rules 3.2, 3.4, 3.5).", ing_hits)
+
     lat_hits = []
     for pattern, advice in LATIN:
         for b in label_blocks:

@@ -213,6 +213,7 @@ These rules have the largest effect for this reader. Apply them to every visible
 | 12 | Spell out each abbreviation at first use. Introduce at most 3 new abbreviations per part. | "e.g.", "i.e.", "etc.", "and/or", "vs." | "for example", "that is", a complete list, "A or B or both", "compared with" |
 | 13 | No contractions. | don't, it's, you'll | do not, it is, you will |
 | 14 | Write "you". | "One should consider…" | "You should consider…" |
+| 15 | Use simple verb forms: the infinitive, the imperative, the simple present, past and future, and the past participle as an adjective. No "-ing" verb forms, except inside a technical noun ("the sampling rate"). No stacked auxiliaries. | "by measuring the surroundings, the app is shaping the sound"; "would have been covered" | "the app measures the surroundings and shapes the sound"; "was covered" (ASD-STE100 rules 3.2, 3.4 and 3.5) |
 
 **Elaborate. Do not strip.** Simple language does not mean less content. Keep the precise term and the full content. Then add support: a definition, a second sentence that says the same thing in other words, an example, the reason. In studies, text with added explanation worked as well as simplified text.
 
@@ -409,7 +410,7 @@ Many requests are about a decision of the reader: their loan, their system, thei
 | FAIL | A sentence with more than 25 words. An idiom or informal expression from a list of about 140. A Latin abbreviation (e.g., i.e., etc., vs.) or "and/or". A date such as 03/04/2026. |
 | FAIL | A missing part: short answer, worked example, self-check with hidden answers, sources. `<details>` inside `<details>`. |
 | FAIL | An external resource. Justified text. Missing `lang`, viewport, or `<title>`. The same `id` two times. A link to a place that does not exist. |
-| WARN | Phrasal verbs, uncommon words, wordy expressions, contractions, double negatives, "billion" without digits, abbreviations without the full form, a term that is used before its definition, more than 15 defined terms in one part, a long paragraph, much bold text, emoji. |
+| WARN | "-ing" verb forms after "by", "while", "when", "before", "after", "without" or "is/are/was/were", and stacked auxiliaries ("would have been"). Phrasal verbs, uncommon words, wordy expressions, contractions, double negatives, "billion" without digits, abbreviations without the full form, a term that is used before its definition, more than 15 defined terms in one part, a long paragraph, much bold text, emoji. |
 | WARN | A generic heading ("Overview"). `<details>` that is not a self-check answer and not marked optional. Hover text, tabs, a legend. A figure without a finding title or reading line. Labels smaller than 12 px. A number cell that is not right-aligned. A table without scroll frame. A page with more than 3,500 words of running text and no marked main path. A main path with more than 3,000 words. |
 
 Run `check_page.py --words` to print the word lists. The checker cannot judge meaning, and its lists are not complete. A page that passes can still be unclear. The checker does not test: one name per concept, words for probability and frequency, correct numbers, the order of example and rule, and the layout. You test these in the final check by hand.
