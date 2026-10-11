@@ -22,17 +22,19 @@
   --space-top: clamp(3rem, 9vw, 6.5rem);
 }
 
-/* ---------- Colour tokens. No accent colour: ink, paper, and grey. The data is the only colour.
-   The palette is the one of the Romanelli site: ink #292b34 (a blue-black), paper #f9f6f0, grey.
-   Chart series and confidence labels carry colour because there the colour is information. ---------- */
+/* ---------- Colour tokens. Ink, paper, grey, and one warm accent. The ink and the paper are the
+   ones of the Romanelli site: ink #292b34 (a blue-black), paper #f9f6f0. The accent is a terracotta,
+   used for the small marks that guide the eye: links, key terms, labels, section marks, the rules
+   above the short answer and the self-check. Chart series and confidence labels keep their own
+   colours because there the colour is information. ---------- */
 :root {
   --bg: #f9f6f0;
   --surface: #efece7;
   --text: #292b34;
   --muted: #5f6168;
   --border: rgb(41 43 52 / 22%);
-  --accent: #292b34;        /* kept for pages that use var(--accent) in their own styles: it is ink */
-  --accent-soft: #efece7;
+  --accent: #a6472a;
+  --accent-soft: #f3e6df;
   --good: #11632a;
   --good-soft: #e9f1e7;
   --warn: #7a4300;
@@ -55,8 +57,8 @@
     --text: #f9f6f0;
     --muted: #aeb0b6;
     --border: rgb(249 246 240 / 32%);
-    --accent: #f9f6f0;
-    --accent-soft: #28292e;
+    --accent: #f0a58f;
+    --accent-soft: #2e2320;
     --good: #7fd69a;
     --good-soft: #17251a;
     --warn: #f0b861;
@@ -77,8 +79,8 @@
   --text: #f9f6f0;
   --muted: #aeb0b6;
   --border: rgb(249 246 240 / 32%);
-  --accent: #f9f6f0;
-  --accent-soft: #28292e;
+  --accent: #f0a58f;
+  --accent-soft: #2e2320;
   --good: #7fd69a;
   --good-soft: #17251a;
   --warn: #f0b861;
@@ -114,9 +116,9 @@ main {
   padding: var(--space-top) 16px var(--space-4);
 }
 
-/* Headings carry the structure through size and space, not through colour. The title is large
-   and set tight, as on the Romanelli site. No rule across the page, except one short mark of ink
-   above each section heading. */
+/* Headings carry the structure through size and space. The title is large and set tight, as on
+   the Romanelli site. No rule across the page, except one short mark of accent above each
+   section heading. */
 h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
 h1 {
   font-size: var(--step-3);
@@ -135,7 +137,7 @@ h2::before {
   content: "";
   display: block;
   width: 2.5rem;
-  border-top: 1px solid var(--text);
+  border-top: 2px solid var(--accent);
   margin-bottom: var(--space-2);
 }
 h3 { font-size: 1.15em; margin-top: var(--space-3); margin-bottom: 0.45rem; }
@@ -143,14 +145,12 @@ p, ul, ol, dl, table, figure { margin: 0 0 1.15rem; }
 p { text-wrap: pretty; }
 ul, ol { padding-left: 1.3rem; }
 li { margin-bottom: 0.4rem; }
-/* A link is ink with a grey underline. Nothing on the page is coloured to attract the eye. */
+/* A link is set in the accent, with a thin underline. */
 a {
-  color: inherit;
+  color: var(--accent);
   text-decoration-thickness: 1px;
-  text-decoration-color: var(--muted);
   text-underline-offset: 0.16em;
 }
-a:hover { text-decoration-color: var(--text); }
 strong { font-weight: 600; }
 .num, td.num, th.num { font-variant-numeric: tabular-nums; }
 
@@ -188,30 +188,30 @@ pre code { font-size: 1em; }
   font-style: italic;
   font-weight: 400;
   font-size: var(--step--1);
-  color: var(--muted);
+  color: var(--accent);
   margin-bottom: 0.35rem;
 }
 
 /* The short answer is the opening statement of the page. Heaviest rule, largest text. */
 .bottom-line {
-  border-top: 2px solid var(--text);
+  border-top: 2px solid var(--accent);
   border-bottom: 1px solid var(--border);
   padding: 1.05rem 0 1.15rem;
   font-size: var(--step-1);
   line-height: 1.55;
   margin-bottom: var(--space-3);
 }
-.bottom-line .label { color: var(--text); }
+.bottom-line .label { color: var(--accent); }
 .example { border-left: 1px solid var(--border); padding-left: 1.4rem; }
 .mistake { border-left: 2px solid var(--bad); padding-left: 1.4rem; }
 .mistake .label { color: var(--bad); }
 .limits { border-top: 1px solid var(--border); padding-top: 1rem; }
 .assume { border-left: 1px solid var(--border); padding-left: 1.4rem; }
-.assume .label { color: var(--muted); }
-.predict { border-left: 2px solid var(--text); padding-left: 1.4rem; }
-.predict .label { color: var(--text); }
+.assume .label { color: var(--accent); }
+.predict { border-left: 2px solid var(--accent); padding-left: 1.4rem; }
+.predict .label { color: var(--accent); }
 .recap { border-top: 2px solid var(--text); padding-top: 1rem; }
-.recap .label { color: var(--text); }
+.recap .label { color: var(--accent); }
 
 /* ---------- Contents list ---------- */
 nav.contents {
@@ -221,14 +221,14 @@ nav.contents {
 }
 nav.contents ol { margin: 0; padding-left: 1.4rem; }
 nav.contents li { margin-bottom: 0.3rem; }
-nav.contents a { text-decoration-color: var(--border); }
-nav.contents a:hover { text-decoration-color: var(--text); }
+nav.contents a { color: var(--text); text-decoration-color: var(--border); }
+nav.contents a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 nav.contents .label {
   display: block;
   font-style: italic;
   font-weight: 400;
   font-size: var(--step--1);
-  color: var(--muted);
+  color: var(--accent);
   margin-bottom: 0.45rem;
 }
 
@@ -236,7 +236,7 @@ nav.contents .label {
 dfn {
   font-style: normal;
   font-weight: 600;
-  border-bottom: 1px solid var(--text);
+  border-bottom: 1px solid var(--accent);
 }
 dl.glossary dt { font-weight: 600; margin-top: 0.85rem; }
 dl.glossary dd { margin: 0.1rem 0 0 0; }
@@ -256,7 +256,7 @@ ol.steps > li::before {
   top: 0;
   width: 1.7rem;
   text-align: right;
-  color: var(--muted);
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
   font-weight: 400;
 }
@@ -308,7 +308,7 @@ td.num, th.num { text-align: right; }
 td.num { white-space: nowrap; }
 .table-read { font-size: 0.95em; margin: -0.4rem 0 1.15rem; }
 tbody th { font-weight: 400; }
-tr.highlight td, tr.highlight th { background: var(--surface); font-weight: 600; }
+tr.highlight td, tr.highlight th { background: var(--accent-soft); font-weight: 600; }
 
 /* ---------- Figures. The title is a sentence that states the finding. ---------- */
 figure {
@@ -377,7 +377,7 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
 
 /* ---------- Self-check questions. The answer is hidden until the reader tries. ---------- */
 .check {
-  border-top: 2px solid var(--text);
+  border-top: 2px solid var(--accent);
   padding-top: 1rem;
   margin: 0 0 var(--space-3);
 }
@@ -386,7 +386,7 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
   font-style: italic;
   font-weight: 400;
   font-size: var(--step--1);
-  color: var(--muted);
+  color: var(--accent);
   margin-bottom: 0.6rem;
 }
 .check ol { margin-bottom: 0; }
@@ -394,13 +394,12 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
 details { margin-top: 0.4rem; }
 summary {
   cursor: pointer;
+  color: var(--accent);
   font-style: italic;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: var(--muted);
   text-underline-offset: 0.16em;
 }
-summary:hover { text-decoration-color: var(--text); }
 details > div {
   margin-top: 0.5rem;
   padding: 0.1rem 0 0.1rem 1.1rem;
@@ -417,7 +416,7 @@ details.optional {
 }
 details.optional > summary::before {
   content: "Optional detail: ";
-  color: var(--muted);
+  color: var(--accent);
   font-style: italic;
   font-weight: 400;
 }
@@ -426,12 +425,12 @@ details.optional > summary::before {
 .part {
   margin: var(--space-4) 0 0;
   padding: 0 0 0.35rem;
-  border-bottom: 1px solid var(--text);
+  border-bottom: 1px solid var(--accent);
   font-size: var(--step--1);
   font-weight: 400;
   font-variant-caps: small-caps;
   letter-spacing: 0.07em;
-  color: var(--muted);
+  color: var(--accent);
 }
 .part + h2 { margin-top: var(--space-2); }
 .part + h2::before { content: none; }
