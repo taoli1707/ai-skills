@@ -70,7 +70,7 @@ Write for a beginner in this topic, because help for beginners is worth more (d 
 
 Read `assets/example-body.html`. It shows every component in use. If you planned a page with parts, read also `assets/example-parts.html`. It shows the structure: parts, contents list with a marked main path, headings. If you planned one part, read it only when the build says that the page needs a marked main path. Write your content in one file, for example `body.html`. This file contains only the content that goes inside `<main>`. You do not write `<head>` or styles, and you do not need to read `assets/page.css`.
 
-If the page needs a component that does not exist, put a small `<style>` element at the end of your body file. Use the colour variables (`var(--text)`, `var(--muted)`, `var(--accent)`, `var(--border)`, `var(--s1)`) and the size variables (`var(--step--1)` to `var(--step-3)`, `var(--space-1)` to `var(--space-4)`). Do not add a second accent or a typeface: see "Visual style". A small inline style is allowed for a layout fix, for example `style="white-space:nowrap"` on a date. Do not change the standard styles.
+If the page needs a component that does not exist, put a small `<style>` element at the end of your body file. Use the colour variables (`var(--text)`, `var(--muted)`, `var(--accent)`, `var(--accent2)`, `var(--accent3)`, `var(--border)`, `var(--s1)`) and the size variables (`var(--step--1)` to `var(--step-3)`, `var(--space-1)` to `var(--space-4)`). Do not add a fourth accent or a typeface: see "Visual style". A small inline style is allowed for a layout fix, for example `style="white-space:nowrap"` on a date. Do not change the standard styles.
 
 ### Step 5: build and check
 
@@ -342,16 +342,16 @@ A chart shows a pattern in data. A diagram shows structure, sequence, or cause. 
 
 ### Visual style
 
-The standard styles follow one principle, taken from the portfolio site of the product designer Mirko Romanelli (designed by the agency Shakuro, 2024): the ink and the paper are neutral, and colour is used little, so that colour keeps a meaning. One warm accent marks the parts that guide the eye: links, key terms, labels, the section marks, and the rules above the short answer and the self-check. The chart series and the confidence labels have their own colours, because there the colour is information. You do not need to read `assets/page.css`; these rules tell you what it does, so that a style that you add fits it.
+The standard styles follow one principle, taken from the portfolio site of the product designer Mirko Romanelli (designed by the agency Shakuro, 2024): the ink and the paper are neutral, and colour is used little, so that colour keeps a meaning. Three accents each have one fixed role, so a colour always means the same kind of thing. Terracotta is the reader's path: links, key terms, the short answer, the self-check. Teal is the evidence: section headings, worked examples, figures, tables, the glossary. Ochre is the reader's own work: the guess box and the part labels. The chart series and the confidence labels have their own colours, because there the colour is information. You do not need to read `assets/page.css`; these rules tell you what it does, so that a style that you add fits it.
 
 | Rule | Reason |
 |---|---|
 | One text typeface, a system serif, at five sizes from one fluid scale: `--step--1` (small print) to `--step-3` (the title). | A second typeface or a sixth size is one more thing that the reader must interpret. |
-| Ink, paper, grey, and one accent. Light theme: ink #292b34 on paper #f9f6f0, accent terracotta #a6472a. Dark theme: paper on blue-black #1b1c22, accent #f0a58f. The accent goes on small marks and labels, never on a block of text or a fill, except the highlighted table row. | One accent in a fixed role is a signal. A second accent, or an accent on a block, is decoration, and then a chart colour has no meaning. |
-| Hairlines and space separate the parts: 1 px rules of ink at 22% (light) or paper at 32% (dark). No fill, no frame, no rounded corner, no shadow. The only fills are the code block and the highlighted table row. | A frame around every block makes every block equal. A rule above a block ranks it. |
+| Ink #292b34 on paper #f9f6f0 (dark theme: paper on blue-black #1b1c22), and three accents: terracotta `--accent`, teal `--accent2`, ochre `--accent3`, each with a soft tint `--accent-soft` and so on. Accents go on marks, labels, rules, and headings. A tint fills only three boxes: the short answer, the recap, and the guess box. | An accent in a fixed role is a signal. A fourth accent, or a tint on every box, is decoration, and then a chart colour has no meaning. |
+| Hairlines and space separate the parts: 1 px rules of ink at 22% (light) or paper at 32% (dark), and a 2 px rule in an accent above a box that opens a section. No frame, no rounded corner, no shadow. | A frame around every block makes every block equal. A rule above a block ranks it. |
 | Headings carry the structure through size and space. The title is large and set tight (line height 1.05). Each section has `--space-4` (64 px) above it and a short mark in the accent. | Structure that the eye reads from space needs no colour and no icon. |
 | Labels are small italic grey text. Part and confidence labels are small capitals. No uppercase letter-spaced labels, no icon, no emoji. | A loud label competes with the content it names. |
-| When you add a style in the body file: use the tokens, and do not introduce a second accent, a typeface, a size outside the scale, or a filled box. | One page, one system. |
+| When you add a style in the body file: use the tokens, and do not introduce a fourth accent, a typeface, a size outside the scale, or a new filled box. | One page, one system. |
 
 ## Structure of a report or decision document
 
@@ -404,7 +404,7 @@ Many requests are about a decision of the reader: their loan, their system, thei
 - One file that contains everything. No external font, script, image, or stylesheet. The build script guarantees the standard parts.
 - `<title>` is a name of 2 to 4 words. The long question goes in `<h1>`.
 - The page works at a width of 320 px. Only tables, code blocks, and figures scroll inside their own frame.
-- Light and dark themes come from the standard styles. All colour pairs pass the contrast limits (4.5 to 1 for text, 3 to 1 for marks). The palette has one accent, see "Visual style".
+- Light and dark themes come from the standard styles. All colour pairs pass the contrast limits (4.5 to 1 for text, 3 to 1 for marks). The palette has three accents with fixed roles, see "Visual style".
 - **Artifact tool:** if you publish the page as an Artifact, also load the `artifact-design` skill. The standard styles already follow its theme rules. For content, structure, and language, this skill decides.
 
 ## Other kinds of HTML

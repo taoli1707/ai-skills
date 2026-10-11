@@ -22,11 +22,12 @@
   --space-top: clamp(3rem, 9vw, 6.5rem);
 }
 
-/* ---------- Colour tokens. Ink, paper, grey, and one warm accent. The ink and the paper are the
-   ones of the Romanelli site: ink #292b34 (a blue-black), paper #f9f6f0. The accent is a terracotta,
-   used for the small marks that guide the eye: links, key terms, labels, section marks, the rules
-   above the short answer and the self-check. Chart series and confidence labels keep their own
-   colours because there the colour is information. ---------- */
+/* ---------- Colour tokens. Ink and paper from the Romanelli site (ink #292b34, paper #f9f6f0),
+   and three accents, each with one fixed role, so a colour always means the same kind of thing:
+     terracotta (--accent)   the reader's path: links, key terms, the short answer, the self-check
+     teal (--accent2)        the evidence: worked examples, figures, tables, section headings
+     ochre (--accent3)       the reader's own work: the guess box, the part labels
+   Chart series and confidence labels keep their own colours because there the colour is information. ---------- */
 :root {
   --bg: #f9f6f0;
   --surface: #efece7;
@@ -35,6 +36,10 @@
   --border: rgb(41 43 52 / 22%);
   --accent: #a6472a;
   --accent-soft: #f3e6df;
+  --accent2: #1a6460;
+  --accent2-soft: #e3efed;
+  --accent3: #7d5a0c;
+  --accent3-soft: #f5ecd6;
   --good: #11632a;
   --good-soft: #e9f1e7;
   --warn: #7a4300;
@@ -59,6 +64,10 @@
     --border: rgb(249 246 240 / 32%);
     --accent: #f0a58f;
     --accent-soft: #2e2320;
+    --accent2: #7fd0c9;
+    --accent2-soft: #1e2b2a;
+    --accent3: #eac066;
+    --accent3-soft: #2c2719;
     --good: #7fd69a;
     --good-soft: #17251a;
     --warn: #f0b861;
@@ -81,6 +90,10 @@
   --border: rgb(249 246 240 / 32%);
   --accent: #f0a58f;
   --accent-soft: #2e2320;
+  --accent2: #7fd0c9;
+  --accent2-soft: #1e2b2a;
+  --accent3: #eac066;
+  --accent3-soft: #2c2719;
   --good: #7fd69a;
   --good-soft: #17251a;
   --warn: #f0b861;
@@ -130,6 +143,7 @@ h2 {
   font-size: var(--step-2);
   line-height: 1.2;
   letter-spacing: -0.01em;
+  color: var(--accent2);
   margin-top: var(--space-4);
   margin-bottom: 0.8rem;
 }
@@ -194,28 +208,29 @@ pre code { font-size: 1em; }
 
 /* The short answer is the opening statement of the page. Heaviest rule, largest text. */
 .bottom-line {
+  background: var(--accent-soft);
   border-top: 2px solid var(--accent);
-  border-bottom: 1px solid var(--border);
-  padding: 1.05rem 0 1.15rem;
+  padding: 1.05rem 1.3rem 1.15rem;
   font-size: var(--step-1);
   line-height: 1.55;
   margin-bottom: var(--space-3);
 }
 .bottom-line .label { color: var(--accent); }
-.example { border-left: 1px solid var(--border); padding-left: 1.4rem; }
+.example { border-left: 2px solid var(--accent2); padding-left: 1.4rem; }
+.example .label { color: var(--accent2); }
 .mistake { border-left: 2px solid var(--bad); padding-left: 1.4rem; }
 .mistake .label { color: var(--bad); }
 .limits { border-top: 1px solid var(--border); padding-top: 1rem; }
 .assume { border-left: 1px solid var(--border); padding-left: 1.4rem; }
 .assume .label { color: var(--accent); }
-.predict { border-left: 2px solid var(--accent); padding-left: 1.4rem; }
-.predict .label { color: var(--accent); }
-.recap { border-top: 2px solid var(--text); padding-top: 1rem; }
-.recap .label { color: var(--accent); }
+.predict { background: var(--accent3-soft); border-left: 2px solid var(--accent3); padding: 0.9rem 1.3rem 1rem 1.4rem; }
+.predict .label { color: var(--accent3); }
+.recap { background: var(--accent2-soft); border-top: 2px solid var(--accent2); padding: 1rem 1.3rem 1.1rem; }
+.recap .label { color: var(--accent2); }
 
 /* ---------- Contents list ---------- */
 nav.contents {
-  border-left: 1px solid var(--border);
+  border-left: 2px solid var(--accent2);
   padding: 0 0 0 1.4rem;
   margin: 0 0 var(--space-3);
 }
@@ -228,7 +243,7 @@ nav.contents .label {
   font-style: italic;
   font-weight: 400;
   font-size: var(--step--1);
-  color: var(--accent);
+  color: var(--accent2);
   margin-bottom: 0.45rem;
 }
 
@@ -238,7 +253,7 @@ dfn {
   font-weight: 600;
   border-bottom: 1px solid var(--accent);
 }
-dl.glossary dt { font-weight: 600; margin-top: 0.85rem; }
+dl.glossary dt { font-weight: 600; color: var(--accent2); margin-top: 0.85rem; }
 dl.glossary dd { margin: 0.1rem 0 0 0; }
 
 /* ---------- Numbered reasoning steps. The numeral sits in the margin, as in a book. ---------- */
@@ -256,7 +271,7 @@ ol.steps > li::before {
   top: 0;
   width: 1.7rem;
   text-align: right;
-  color: var(--accent);
+  color: var(--accent2);
   font-variant-numeric: tabular-nums;
   font-weight: 400;
 }
@@ -300,24 +315,25 @@ th, td {
 th:first-child, td:first-child { padding-left: 0; }
 th:last-child, td:last-child { padding-right: 0; }
 thead th {
-  border-top: 1px solid var(--text);
-  border-bottom: 1px solid var(--text);
+  border-top: 2px solid var(--accent2);
+  border-bottom: 1px solid var(--accent2);
+  color: var(--accent2);
   font-weight: 600;
 }
 td.num, th.num { text-align: right; }
 td.num { white-space: nowrap; }
 .table-read { font-size: 0.95em; margin: -0.4rem 0 1.15rem; }
 tbody th { font-weight: 400; }
-tr.highlight td, tr.highlight th { background: var(--accent-soft); font-weight: 600; }
+tr.highlight td, tr.highlight th { background: var(--accent2-soft); font-weight: 600; }
 
 /* ---------- Figures. The title is a sentence that states the finding. ---------- */
 figure {
-  border-top: 1px solid var(--text);
+  border-top: 2px solid var(--accent2);
   border-bottom: 1px solid var(--border);
   padding: 0.9rem 0 1rem;
   margin-bottom: var(--space-2);
 }
-figure .fig-title { font-weight: 600; margin: 0 0 0.15rem; }
+figure .fig-title { font-weight: 600; color: var(--accent2); margin: 0 0 0.15rem; }
 figure .fig-sub { color: var(--muted); font-style: italic; font-size: var(--step--1); margin: 0 0 0.7rem; }
 figure .fig-read { font-size: 0.95em; margin: 0.7rem 0 0; }
 figure .fig-source { color: var(--muted); font-size: var(--step--1); margin: 0.35rem 0 0; }
@@ -342,7 +358,7 @@ svg .axis-label { fill: var(--muted); font-size: 13px; }
 svg .grid { stroke: var(--grid); stroke-width: 1; }
 svg .axis { stroke: var(--muted); stroke-width: 1; }
 /* Diagram parts. A box is a thing. An arrow means "causes" or "then". */
-svg .node { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+svg .node { fill: none; stroke: var(--accent2); stroke-width: 1.2; }
 svg .arrow { fill: none; stroke: var(--text); stroke-width: 1.5; }
 svg .arrow-head { fill: var(--text); }
 svg .node-name { font-size: 14px; font-weight: 600; }
@@ -364,7 +380,7 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
 }
 .compare > div > :last-child { margin-bottom: 0; }
 .compare > div + div { border-left: 1px solid var(--border); padding-left: 1.7rem; }
-.compare h4 { margin: 0 0 0.4rem; font-size: 1em; font-weight: 600; }
+.compare h4 { margin: 0 0 0.4rem; font-size: 1em; font-weight: 600; color: var(--accent2); }
 @media (max-width: 560px) {
   .compare { grid-template-columns: 1fr; gap: 1.1rem 0; }
   .compare > div + div {
@@ -425,12 +441,12 @@ details.optional > summary::before {
 .part {
   margin: var(--space-4) 0 0;
   padding: 0 0 0.35rem;
-  border-bottom: 1px solid var(--accent);
+  border-bottom: 1px solid var(--accent3);
   font-size: var(--step--1);
   font-weight: 400;
   font-variant-caps: small-caps;
   letter-spacing: 0.07em;
-  color: var(--accent);
+  color: var(--accent3);
 }
 .part + h2 { margin-top: var(--space-2); }
 .part + h2::before { content: none; }
@@ -468,6 +484,7 @@ ol.sources li { margin-bottom: 0.7rem; }
   body { font-size: 11pt; background: #fff; color: #000; }
   main { max-width: none; padding: 0; }
   nav.contents { display: none; }
+  .bottom-line, .recap, .predict { background: none; padding-left: 0; padding-right: 0; }
   h2 { margin-top: 2rem; }
   .box, figure, .check, table, .compare { break-inside: avoid; }
   a { color: inherit; }
