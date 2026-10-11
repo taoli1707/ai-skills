@@ -1,19 +1,38 @@
-/* ---------- Typefaces. System serif only, so the page needs no external font. ---------- */
+/* ---------- Typefaces. One text typeface, a system serif, so the page needs no external font.
+   One typeface for everything is the rule of the Romanelli site (Suisse Int'l there). ---------- */
 :root {
   --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, "Sitka Text", Georgia,
     "Songti SC", "Hiragino Mincho ProN", "Noto Serif CJK SC", serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
 
-/* ---------- Colour tokens. Light is the default: warm paper, near-black ink. ---------- */
+/* ---------- Type scale. One fluid scale, five steps, so every size on the page is one of these.
+   The scale follows the Romanelli site: small print 14 px, text 16 to 22 px, display large. ---------- */
 :root {
-  --bg: #fdfcf9;
-  --surface: #f2efe7;
-  --text: #1a1713;
-  --muted: #5c564e;
-  --border: #d5cfc2;
-  --accent: #8a2e1c;
-  --accent-soft: #f1e7e2;
+  --step--1: clamp(0.9rem, 0.86rem + 0.2vw, 0.98rem);   /* small print: meta line, sources, captions */
+  --step-0: clamp(1.06rem, 1rem + 0.3vw, 1.2rem);        /* running text */
+  --step-1: clamp(1.16rem, 1.1rem + 0.35vw, 1.3rem);     /* the short answer */
+  --step-2: clamp(1.4rem, 1.22rem + 0.9vw, 1.8rem);      /* section heading */
+  --step-3: clamp(2.1rem, 1.3rem + 3.6vw, 3.5rem);       /* page title */
+  /* Spacing scale: 16, 24, 40, 64 px, and one large step above the title. */
+  --space-1: 1rem;
+  --space-2: 1.5rem;
+  --space-3: 2.5rem;
+  --space-4: 4rem;
+  --space-top: clamp(3rem, 9vw, 6.5rem);
+}
+
+/* ---------- Colour tokens. No accent colour: ink, paper, and grey. The data is the only colour.
+   The palette is the one of the Romanelli site: ink #292b34 (a blue-black), paper #f9f6f0, grey.
+   Chart series and confidence labels carry colour because there the colour is information. ---------- */
+:root {
+  --bg: #f9f6f0;
+  --surface: #efece7;
+  --text: #292b34;
+  --muted: #5f6168;
+  --border: rgb(41 43 52 / 22%);
+  --accent: #292b34;        /* kept for pages that use var(--accent) in their own styles: it is ink */
+  --accent-soft: #efece7;
   --good: #11632a;
   --good-soft: #e9f1e7;
   --warn: #7a4300;
@@ -27,17 +46,17 @@
   --s2: #863709;
   --s3: #9260da;
   --s4: #25984d;
-  --grid: #e5dfd2;
+  --grid: #e0ded9;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #16130f;
-    --surface: #221e18;
-    --text: #ece5da;
-    --muted: #a99e91;
-    --border: #3c352c;
-    --accent: #e4a392;
-    --accent-soft: #2b1f1a;
+    --bg: #1b1c22;
+    --surface: #28292e;
+    --text: #f9f6f0;
+    --muted: #aeb0b6;
+    --border: rgb(249 246 240 / 32%);
+    --accent: #f9f6f0;
+    --accent-soft: #28292e;
     --good: #7fd69a;
     --good-soft: #17251a;
     --warn: #f0b861;
@@ -48,17 +67,18 @@
     --s2: #9e590d;
     --s3: #a473ee;
     --s4: #09af51;
-    --grid: #2e2821;
+    --grid: #3a3b3f;
+    color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #16130f;
-  --surface: #221e18;
-  --text: #ece5da;
-  --muted: #a99e91;
-  --border: #3c352c;
-  --accent: #e4a392;
-  --accent-soft: #2b1f1a;
+  --bg: #1b1c22;
+  --surface: #28292e;
+  --text: #f9f6f0;
+  --muted: #aeb0b6;
+  --border: rgb(249 246 240 / 32%);
+  --accent: #f9f6f0;
+  --accent-soft: #28292e;
   --good: #7fd69a;
   --good-soft: #17251a;
   --warn: #f0b861;
@@ -69,7 +89,8 @@
   --s2: #9e590d;
   --s3: #a473ee;
   --s4: #09af51;
-  --grid: #2e2821;
+  --grid: #3a3b3f;
+  color-scheme: dark;
 }
 
 /* ---------- Base text. One measure, left-aligned, generous line spacing. ---------- */
@@ -80,51 +101,56 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--serif);
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-size: var(--step-0);
+  line-height: 1.65;
   text-align: left;
   overflow-wrap: break-word;
   font-kerning: normal;
   font-synthesis: none;
 }
 main {
-  max-width: 40rem;
+  max-width: 42rem;
   margin: 0 auto;
-  padding: 3rem 16px 5rem;
+  padding: var(--space-top) 16px var(--space-4);
 }
 
-/* Headings carry the structure through size and space. No rules across the page,
-   except one short mark above each section heading. */
+/* Headings carry the structure through size and space, not through colour. The title is large
+   and set tight, as on the Romanelli site. No rule across the page, except one short mark of ink
+   above each section heading. */
 h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
 h1 {
-  font-size: 2.3rem;
-  line-height: 1.17;
-  letter-spacing: -0.012em;
-  margin-bottom: 0.9rem;
+  font-size: var(--step-3);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-1);
 }
 h2 {
-  font-size: 1.5rem;
-  line-height: 1.26;
-  margin-top: 3.4rem;
-  margin-bottom: 0.7rem;
+  font-size: var(--step-2);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-top: var(--space-4);
+  margin-bottom: 0.8rem;
 }
 h2::before {
   content: "";
   display: block;
   width: 2.5rem;
-  border-top: 1px solid var(--accent);
-  margin-bottom: 1.1rem;
+  border-top: 1px solid var(--text);
+  margin-bottom: var(--space-2);
 }
-h3 { font-size: 1.15rem; margin-top: 1.9rem; margin-bottom: 0.45rem; }
+h3 { font-size: 1.15em; margin-top: var(--space-3); margin-bottom: 0.45rem; }
 p, ul, ol, dl, table, figure { margin: 0 0 1.15rem; }
 p { text-wrap: pretty; }
 ul, ol { padding-left: 1.3rem; }
 li { margin-bottom: 0.4rem; }
+/* A link is ink with a grey underline. Nothing on the page is coloured to attract the eye. */
 a {
-  color: var(--accent);
+  color: inherit;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-decoration-color: var(--muted);
+  text-underline-offset: 0.16em;
 }
+a:hover { text-decoration-color: var(--text); }
 strong { font-weight: 600; }
 .num, td.num, th.num { font-variant-numeric: tabular-nums; }
 
@@ -136,32 +162,32 @@ code {
 }
 pre {
   background: var(--surface);
-  border-left: 2px solid var(--border);
+  border-left: 1px solid var(--border);
   padding: 0.9rem 1.1rem;
   overflow-x: auto;
   line-height: 1.55;
-  font-size: 0.95rem;
+  font-size: var(--step--1);
   margin: 0 0 1.3rem;
 }
 pre code { font-size: 1em; }
 
-/* ---------- Page header. One line under the title closes the masthead. ---------- */
+/* ---------- Page header. One line of small print under the title closes the masthead. ---------- */
 .meta {
   color: var(--muted);
-  font-style: italic;
-  font-size: 1rem;
-  margin: 0 0 2.6rem;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  margin: 0 0 var(--space-3);
 }
 
 /* ---------- Boxes. No fill and no frame: a rule and space set each one apart.
               Every box keeps its written label, so colour is never the only signal. ---------- */
-.box { margin: 0 0 1.7rem; }
+.box { margin: 0 0 var(--space-2); }
 .box > :last-child { margin-bottom: 0; }
 .box .label {
   display: block;
   font-style: italic;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: var(--step--1);
   color: var(--muted);
   margin-bottom: 0.35rem;
 }
@@ -171,22 +197,19 @@ pre code { font-size: 1em; }
   border-top: 2px solid var(--text);
   border-bottom: 1px solid var(--border);
   padding: 1.05rem 0 1.15rem;
-  font-size: 1.16rem;
-  line-height: 1.6;
+  font-size: var(--step-1);
+  line-height: 1.55;
+  margin-bottom: var(--space-3);
 }
 .bottom-line .label { color: var(--text); }
 .example { border-left: 1px solid var(--border); padding-left: 1.4rem; }
 .mistake { border-left: 2px solid var(--bad); padding-left: 1.4rem; }
 .mistake .label { color: var(--bad); }
-.limits { border-top: 1px solid var(--border); padding-top: 1rem; font-size: 1.05rem; }
-.assume {
-  border-left: 1px solid var(--border);
-  padding-left: 1.4rem;
-  font-size: 1.05rem;
-}
+.limits { border-top: 1px solid var(--border); padding-top: 1rem; }
+.assume { border-left: 1px solid var(--border); padding-left: 1.4rem; }
 .assume .label { color: var(--muted); }
-.predict { border-left: 2px solid var(--accent); padding-left: 1.4rem; }
-.predict .label { color: var(--accent); }
+.predict { border-left: 2px solid var(--text); padding-left: 1.4rem; }
+.predict .label { color: var(--text); }
 .recap { border-top: 2px solid var(--text); padding-top: 1rem; }
 .recap .label { color: var(--text); }
 
@@ -194,17 +217,17 @@ pre code { font-size: 1em; }
 nav.contents {
   border-left: 1px solid var(--border);
   padding: 0 0 0 1.4rem;
-  margin: 0 0 2rem;
-  font-size: 1.05rem;
+  margin: 0 0 var(--space-3);
 }
 nav.contents ol { margin: 0; padding-left: 1.4rem; }
 nav.contents li { margin-bottom: 0.3rem; }
-nav.contents a { color: var(--text); text-decoration-color: var(--border); }
-nav.contents a:hover { text-decoration-color: var(--accent); }
+nav.contents a { text-decoration-color: var(--border); }
+nav.contents a:hover { text-decoration-color: var(--text); }
 nav.contents .label {
   display: block;
   font-style: italic;
   font-weight: 400;
+  font-size: var(--step--1);
   color: var(--muted);
   margin-bottom: 0.45rem;
 }
@@ -213,7 +236,7 @@ nav.contents .label {
 dfn {
   font-style: normal;
   font-weight: 600;
-  border-bottom: 1px solid var(--accent);
+  border-bottom: 1px solid var(--text);
 }
 dl.glossary dt { font-weight: 600; margin-top: 0.85rem; }
 dl.glossary dd { margin: 0.1rem 0 0 0; }
@@ -241,7 +264,7 @@ ol.steps > li::before {
   display: block;
   color: var(--muted);
   font-style: italic;
-  font-size: 1.02rem;
+  font-size: 0.95em;
   margin-top: 0.1rem;
 }
 .why::before { content: "Reason: "; font-weight: 400; }
@@ -259,10 +282,10 @@ ol.steps > li::before {
   left: 0;
   color: var(--muted);
   font-style: italic;
-  font-size: 0.9rem;
+  font-size: var(--step--1);
   margin-bottom: 0.3rem;
 }
-table { border-collapse: collapse; width: 100%; font-size: 1.02rem; line-height: 1.5; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95em; line-height: 1.5; }
 caption {
   text-align: left;
   font-weight: 600;
@@ -283,7 +306,7 @@ thead th {
 }
 td.num, th.num { text-align: right; }
 td.num { white-space: nowrap; }
-.table-read { font-size: 1rem; margin: -0.4rem 0 1.15rem; }
+.table-read { font-size: 0.95em; margin: -0.4rem 0 1.15rem; }
 tbody th { font-weight: 400; }
 tr.highlight td, tr.highlight th { background: var(--surface); font-weight: 600; }
 
@@ -292,11 +315,12 @@ figure {
   border-top: 1px solid var(--text);
   border-bottom: 1px solid var(--border);
   padding: 0.9rem 0 1rem;
+  margin-bottom: var(--space-2);
 }
-figure .fig-title { font-weight: 600; font-size: 1.08rem; margin: 0 0 0.15rem; }
-figure .fig-sub { color: var(--muted); font-style: italic; font-size: 0.98rem; margin: 0 0 0.7rem; }
-figure .fig-read { font-size: 1rem; margin: 0.7rem 0 0; }
-figure .fig-source { color: var(--muted); font-style: italic; font-size: 0.93rem; margin: 0.35rem 0 0; }
+figure .fig-title { font-weight: 600; margin: 0 0 0.15rem; }
+figure .fig-sub { color: var(--muted); font-style: italic; font-size: var(--step--1); margin: 0 0 0.7rem; }
+figure .fig-read { font-size: 0.95em; margin: 0.7rem 0 0; }
+figure .fig-source { color: var(--muted); font-size: var(--step--1); margin: 0.35rem 0 0; }
 figure svg { display: block; width: 100%; height: auto; }
 /* On a narrow screen a figure keeps a readable size and scrolls inside its own frame. */
 .fig-scroll { overflow-x: auto; }
@@ -309,7 +333,7 @@ figure svg { display: block; width: 100%; height: auto; }
     left: 0;
     color: var(--muted);
     font-style: italic;
-    font-size: 0.9rem;
+    font-size: var(--step--1);
     margin-bottom: 0.3rem;
   }
 }
@@ -333,14 +357,14 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0 1.7rem;
-  margin: 0 0 1.7rem;
+  margin: 0 0 var(--space-2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   padding: 0.95rem 0 1rem;
 }
 .compare > div > :last-child { margin-bottom: 0; }
 .compare > div + div { border-left: 1px solid var(--border); padding-left: 1.7rem; }
-.compare h4 { margin: 0 0 0.4rem; font-size: 1.04rem; font-weight: 600; }
+.compare h4 { margin: 0 0 0.4rem; font-size: 1em; font-weight: 600; }
 @media (max-width: 560px) {
   .compare { grid-template-columns: 1fr; gap: 1.1rem 0; }
   .compare > div + div {
@@ -355,12 +379,13 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
 .check {
   border-top: 2px solid var(--text);
   padding-top: 1rem;
-  margin: 0 0 1.8rem;
+  margin: 0 0 var(--space-3);
 }
 .check .label {
   display: block;
   font-style: italic;
   font-weight: 400;
+  font-size: var(--step--1);
   color: var(--muted);
   margin-bottom: 0.6rem;
 }
@@ -369,12 +394,13 @@ svg .arrow-label { font-size: 13px; font-style: italic; }
 details { margin-top: 0.4rem; }
 summary {
   cursor: pointer;
-  color: var(--accent);
   font-style: italic;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-decoration-color: var(--muted);
+  text-underline-offset: 0.16em;
 }
+summary:hover { text-decoration-color: var(--text); }
 details > div {
   margin-top: 0.5rem;
   padding: 0.1rem 0 0.1rem 1.1rem;
@@ -387,7 +413,7 @@ details.optional {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   padding: 0.75rem 0;
-  margin: 0 0 1.7rem;
+  margin: 0 0 var(--space-2);
 }
 details.optional > summary::before {
   content: "Optional detail: ";
@@ -398,27 +424,27 @@ details.optional > summary::before {
 
 /* ---------- Part heading, for a page with several parts ---------- */
 .part {
-  margin: 4rem 0 0;
+  margin: var(--space-4) 0 0;
   padding: 0 0 0.35rem;
   border-bottom: 1px solid var(--text);
-  font-size: 1.02rem;
+  font-size: var(--step--1);
   font-weight: 400;
   font-variant-caps: small-caps;
   letter-spacing: 0.07em;
   color: var(--muted);
 }
-.part + h2 { margin-top: 1.3rem; }
+.part + h2 { margin-top: var(--space-2); }
 .part + h2::before { content: none; }
 nav.contents .core::after {
   content: " (main path)";
   color: var(--muted);
   font-style: italic;
-  font-size: 0.92rem;
+  font-size: 0.92em;
 }
 
 /* ---------- Confidence labels. Small capitals plus the word, never colour alone. ---------- */
 .conf {
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 400;
   font-variant-caps: small-caps;
   letter-spacing: 0.05em;
@@ -428,16 +454,14 @@ nav.contents .core::after {
 .conf.medium { color: var(--warn); }
 .conf.low { color: var(--bad); }
 .conf.given { color: var(--muted); }
-ol.sources { font-size: 1.05rem; }
+ol.sources { font-size: 0.95em; }
 ol.sources li { margin-bottom: 0.7rem; }
 
-/* ---------- Narrow screens. The title drops one step, the measure keeps its gutter. ---------- */
+/* ---------- Narrow screens. The fluid scale already lowers every size; the measure keeps its gutter. ---------- */
 @media (max-width: 30rem) {
-  body { font-size: 1.06rem; }
-  main { padding: 2.2rem 16px 4rem; }
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.32rem; margin-top: 2.8rem; }
-  .bottom-line { font-size: 1.1rem; }
+  main { padding-bottom: var(--space-3); }
+  h2 { margin-top: var(--space-3); }
+  .bottom-line { margin-bottom: var(--space-2); }
 }
 
 /* ---------- Print. All hidden answers are opened by the script at the end of the file. ---------- */
