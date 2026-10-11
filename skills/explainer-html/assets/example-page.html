@@ -27,6 +27,10 @@
   --space-3: 2.5rem;
   --space-4: 4rem;
   --space-top: clamp(3rem, 9vw, 6.5rem);
+  /* The measure of the text column, the side gutter, and the width of the wide stage (see below). */
+  --measure: 40rem;
+  --gutter: 1rem;
+  --wide: 56rem;
 }
 
 /* ---------- Colour tokens. Ink and paper from the Romanelli site (ink #292b34, paper #f9f6f0),
@@ -131,14 +135,14 @@ body {
   font-synthesis: none;
 }
 main {
-  max-width: 42rem;
+  max-width: var(--measure);
   margin: 0 auto;
-  padding: var(--space-top) 16px var(--space-4);
+  padding: var(--space-top) var(--gutter) var(--space-4);
 }
 
 /* Headings carry the structure through size and space. The title is large and set tight, as on
-   the Romanelli site. No rule across the page, except one short mark of accent above each
-   section heading. */
+   the Romanelli site. No rule across the page, except one short mark above each section
+   heading, in the colour of the heading. */
 h1, h2, h3 { margin: 0; font-weight: 600; text-wrap: balance; }
 h1 {
   font-size: var(--step-3);
@@ -158,7 +162,7 @@ h2::before {
   content: "";
   display: block;
   width: 2.5rem;
-  border-top: 2px solid var(--accent);
+  border-top: 2px solid var(--accent2);
   margin-bottom: var(--space-2);
 }
 h3 { font-size: 1.15em; margin-top: var(--space-3); margin-bottom: 0.45rem; }
@@ -443,6 +447,12 @@ details.optional > summary::before {
   font-style: italic;
   font-weight: 400;
 }
+/* An optional block directly after a comparison or a figure shares their closing rule,
+   so the page does not show two rules with an empty row between them. */
+.compare + details.optional, figure + details.optional {
+  border-top: 0;
+  margin-top: calc(-1 * var(--space-2));
+}
 
 /* ---------- Part heading, for a page with several parts ---------- */
 .part {
@@ -479,6 +489,23 @@ nav.contents .core::after {
 ol.sources { font-size: 0.95em; }
 ol.sources li { margin-bottom: 0.7rem; }
 
+/* ---------- The wide stage. On a wide screen the title, the figures, and the tables are wider than
+   the text column and centred on it. The text keeps its measure; the work of the page gets the room.
+   On the Romanelli site the images are wider than the text grid, and the change of width gives the
+   page its rhythm. ---------- */
+@media (min-width: 64rem) {
+  h1, .meta, figure, .table-wrap {
+    width: var(--wide);
+    margin-left: calc((var(--measure) - 2 * var(--gutter) - var(--wide)) / 2);
+  }
+  /* The drawing of a figure is wide; its title and its text stay in the text column, so that
+     no line of running text is longer than the measure. */
+  figure > .fig-title, figure > .fig-sub, figure > .fig-read, figure > .fig-source {
+    width: calc(var(--measure) - 2 * var(--gutter));
+    margin-left: calc((var(--wide) - var(--measure) + 2 * var(--gutter)) / 2);
+  }
+}
+
 /* ---------- Narrow screens. The fluid scale already lowers every size; the measure keeps its gutter. ---------- */
 @media (max-width: 30rem) {
   main { padding-bottom: var(--space-3); }
@@ -490,6 +517,8 @@ ol.sources li { margin-bottom: 0.7rem; }
 @media print {
   body { font-size: 11pt; background: #fff; color: #000; }
   main { max-width: none; padding: 0; }
+  h1, .meta, figure, .table-wrap,
+  figure > .fig-title, figure > .fig-sub, figure > .fig-read, figure > .fig-source { width: auto; margin-left: 0; }
   nav.contents { display: none; }
   .bottom-line, .recap, .predict { background: none; padding-left: 0; padding-right: 0; }
   h2 { margin-top: 2rem; }
